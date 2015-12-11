@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">TaxmanReader</string>
     <string name="action_settings">Settings</string>
+
+
+
+    <string name="scanner">Scanner</string>
+
+    <string name="public_key">
+        MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAENnhMXfP+BADBNKz+RJaEKU5y1ca08StD
+        ZkG/B1EVVVcHtFp6sspt/R6oy+Tp1D9jObMXJt603nDgGiJUanzGrQ==
+    </string>
 </resources>
