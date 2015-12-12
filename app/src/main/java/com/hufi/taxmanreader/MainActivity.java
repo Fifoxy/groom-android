@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -15,6 +16,16 @@ import android.widget.Button;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import org.spongycastle.asn1.x509.SubjectPublicKeyInfo;
+import org.spongycastle.openssl.PEMKeyPair;
+import org.spongycastle.openssl.PEMParser;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         findViewById(R.id.scanner_button).setOnClickListener(this);
+        Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }
 
     @Override
