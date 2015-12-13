@@ -1,11 +1,22 @@
 <resources>
-    <string name="app_name">TaxmanReader</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Taxman Reader</string>
+    <string name="action_settings">Réglages</string>
 
+    <!-- PUBLIC KEY -->
+    <string name="public_key">MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEASezeQmkN3NVL6PcfGXv0lkftLh0
+        8tf70W+j7KwmWO5y1rygtEODKb5dyvj/63NEwzon3zLOAwqOTPwxC59pyQ==</string>
 
-
+    <!-- SCANNER -->
     <string name="scanner">Scanner</string>
+    <string name="wrong_QR_Code">QR Code invalide</string>
 
-    <string name="public_key">MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAENnhMXfP+BADBNKz+RJaEKU5y1ca08StD
-ZkG/B1EVVVcHtFp6sspt/R6oy+Tp1D9jObMXJt603nDgGiJUanzGrQ==</string>
+    <!-- RESULT -->
+    <string name="scanner_result">Résultat</string>
+    <string name="access_granted">Accès autorisé</string>
+    <string name="access_denied">Accès refusé</string>
+    <string name="lastname">Nom</string>
+    <string name="firstname">Prénom</string>
+    <string name="ticket_id">ID</string>
+
+
 </resources>

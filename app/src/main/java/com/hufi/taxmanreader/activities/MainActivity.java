@@ -1,31 +1,16 @@
-package com.hufi.taxmanreader;
+package com.hufi.taxmanreader.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
-import com.google.zxing.Result;
+import com.hufi.taxmanreader.R;
 
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
-import org.spongycastle.asn1.x509.SubjectPublicKeyInfo;
-import org.spongycastle.openssl.PEMKeyPair;
-import org.spongycastle.openssl.PEMParser;
-
-import java.io.IOException;
-import java.io.StringReader;
 import java.security.*;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -64,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, ScanActivity.class);
+        Intent intent = new Intent(this, ScannerActivity.class);
         startActivity(intent);
     }
 }

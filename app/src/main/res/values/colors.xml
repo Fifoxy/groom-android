@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#EF6C00</color>
     <color name="textColor">#000000</color>
+
+    <color name="denied">#F44336</color>
+    <color name="granted">#4CAF50</color>
 </resources>
 
 
