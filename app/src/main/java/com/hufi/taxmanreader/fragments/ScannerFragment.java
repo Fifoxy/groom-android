@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     public void onResume() {
         super.onResume();
         mScannerView.setResultHandler(this);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.scanner));
         mScannerView.startCamera();
     }
 
