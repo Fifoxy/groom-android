@@ -26,6 +26,7 @@ import com.hufi.taxmanreader.model.Event;
 import com.hufi.taxmanreader.model.Order;
 import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.model.Ticket;
+import com.hufi.taxmanreader.utils.TaxmanUtils;
 
 
 /**
@@ -116,9 +117,10 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
         RequestProductAsyncTask requestProductAsyncTask = new RequestProductAsyncTask(this);
         requestProductAsyncTask.execute(ticket.getPrid());
 
-        RequestOrderAsyncTask requestOrderAsyncTask = new RequestOrderAsyncTask(this);
-      //  requestOrderAsyncTask.execute(Integer.valueOf(ticket.getOrid()));
-        requestOrderAsyncTask.execute(19);
+        if(TaxmanUtils.userConnected()){
+            RequestOrderAsyncTask requestOrderAsyncTask = new RequestOrderAsyncTask(this);
+            requestOrderAsyncTask.execute(Integer.valueOf(ticket.getOrid()));
+        }
     }
 
     private void failure() {

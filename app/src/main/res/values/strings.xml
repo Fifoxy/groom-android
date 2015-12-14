@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Taxman Reader</string>
     <string name="action_settings">Réglages</string>
+    <string name="sign_in">Connexion</string>
+    <string name="log_out">Déconnexion</string>
 
     <!-- PUBLIC KEY -->
     <string name="public_key">MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEASezeQmkN3NVL6PcfGXv0lkftLh0
