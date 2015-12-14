@@ -7,9 +7,11 @@
         8tf70W+j7KwmWO5y1rygtEODKb5dyvj/63NEwzon3zLOAwqOTPwxC59pyQ==</string>
 
     <!-- Yoshimi -->
-    <string name="client_id">5wspoMzAXHO5XpTXdvtPsv7zjS_qpUuTgrTsYa10jUvzAhMYnxCCItRp</string>
+    <string name="client_id">kD8Q05MMCFWnwxxFKW5oW4PVluAmzhy1603DBNE6OdLOgmdWiFSWOaeR</string>
     <string name="authorize_endpoint">https://www.wapitisen.fr/sso/oauth/authorize</string>
-    <string name="redirect_uri">https://tickets.gala-isen.fr/</string>
+    <string name="redirect_uri">https://tickets.gala-isen.fr/login_return</string>
+    <string name="yoshimi">Yoshimi</string>
+    <string name="yoshimi_token">Yoshimi token</string>
     <string name="yoshimi_issuer">https://www.wapitisen.fr</string>
     <string name="yoshimi_key">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuINbLPfPI10l+tzNpaMH
         9Hwp63zKDNrEioMVpd0V5BG2m0+WaWjA47D+yEOzpbP1fK8440rTMmDBRiHyB2yj

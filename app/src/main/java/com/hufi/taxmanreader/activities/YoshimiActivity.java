@@ -1,6 +1,7 @@
 package com.hufi.taxmanreader.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,6 +15,8 @@ import android.webkit.WebViewClient;
 import android.webkit.CookieManager;
 import com.google.common.base.Splitter;
 import com.hufi.taxmanreader.R;
+import com.hufi.taxmanreader.TaxmanReaderApplication;
+
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.consumer.InvalidJwtException;
@@ -73,9 +76,9 @@ public class YoshimiActivity extends Activity {
 
             JwtClaims claims = jwtConsumer.processToClaims(params.get("id_token"));
             if (claims.getClaimValue("nonce").equals(this.nonce)) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences prefs = TaxmanReaderApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("yoshimi_token", params.get("id_token"));
+                editor.putString(getString(R.string.yoshimi_token), params.get("id_token")).apply();
                 finish();
             }
         } catch (NoSuchAlgorithmException e) {

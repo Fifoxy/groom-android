@@ -10,44 +10,29 @@ public class Ticket {
     private String id;
     private String iat;
     private String prid;
+    private String orid;
 
     public String getLastname() {
         return ln;
-    }
-
-    private void setLastname(String lastname) {
-        this.ln = lastname;
     }
 
     public String getFirstname() {
         return fn;
     }
 
-    private void setFirstname(String firstname) {
-        this.fn = firstname;
-    }
-
     public String getTicket_id() {
         return id;
-    }
-
-    private void setTicket_id(String ticket_id) {
-        this.id = ticket_id;
     }
 
     public String getIat() {
         return iat;
     }
 
-    private void setIat(String iat) {
-        this.iat = iat;
-    }
-
     public String getPrid() {
         return prid;
     }
 
-    private void setPrid(String prid) {
-        this.prid = prid;
+    public String getOrid() {
+        return orid;
     }
 }

@@ -24,6 +24,6 @@ public class RequestProductAsyncTask extends AsyncTask<String, Integer, Product>
 
     @Override
     protected void onPostExecute(Product product) {
-        this.requestProductListener.onResponseReceived(product);
+        this.requestProductListener.onProductReceived(product);
     }
 }

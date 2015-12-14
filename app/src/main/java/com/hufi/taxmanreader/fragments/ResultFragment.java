@@ -2,42 +2,36 @@ package com.hufi.taxmanreader.fragments;
 
 import android.app.Fragment;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.TaxmanReaderApplication;
 import com.hufi.taxmanreader.async.RequestEventAsyncTask;
+import com.hufi.taxmanreader.async.RequestOrderAsyncTask;
 import com.hufi.taxmanreader.async.RequestProductAsyncTask;
 import com.hufi.taxmanreader.listeners.RequestEventListener;
+import com.hufi.taxmanreader.listeners.RequestOrderListener;
 import com.hufi.taxmanreader.listeners.RequestProductListener;
 import com.hufi.taxmanreader.model.Event;
+import com.hufi.taxmanreader.model.Order;
 import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.model.Ticket;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import com.google.gson.Gson;
 
 
 /**
  * Created by Pierre Defache on 13/12/2015.
  */
-public class ResultFragment extends Fragment implements RequestProductListener, RequestEventListener{
+public class ResultFragment extends Fragment implements RequestProductListener, RequestEventListener, RequestOrderListener {
 
     private View rootView;
     private String result;
@@ -95,18 +89,18 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
         return this.rootView;
     }
 
-    private void load(){
+    private void load() {
         result = getArguments().getString(getString(R.string.scanner_result));
 
         assert result != null;
-        if(!result.isEmpty()){
+        if (!result.isEmpty()) {
             success();
         } else {
             failure();
         }
     }
 
-    private void success(){
+    private void success() {
         status.setImageDrawable(getActivity().getDrawable(R.drawable.ic_done));
         status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.granted)));
         statusText.setText(getString(R.string.access_granted));
@@ -121,9 +115,13 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
 
         RequestProductAsyncTask requestProductAsyncTask = new RequestProductAsyncTask(this);
         requestProductAsyncTask.execute(ticket.getPrid());
+
+        RequestOrderAsyncTask requestOrderAsyncTask = new RequestOrderAsyncTask(this);
+      //  requestOrderAsyncTask.execute(Integer.valueOf(ticket.getOrid()));
+        requestOrderAsyncTask.execute(19);
     }
 
-    private void failure(){
+    private void failure() {
         status.setImageDrawable(getActivity().getDrawable(R.drawable.ic_block));
         status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.denied)));
         statusText.setText(getString(R.string.access_denied));
@@ -132,7 +130,7 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
         hideCards();
     }
 
-    private void hideCards(){
+    private void hideCards() {
         product_information.setVisibility(View.GONE);
         event_information.setVisibility(View.GONE);
         product_label.setVisibility(View.GONE);
@@ -140,8 +138,8 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
     }
 
     @Override
-    public void onResponseReceived(Event event) {
-        if(event != null){
+    public void onEventReceived(Event event) {
+        if (event != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(event.getName());
 
             event_name.setText(event.getName());
@@ -150,13 +148,21 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
     }
 
     @Override
-    public void onResponseReceived(Product product) {
-        if(product != null){
+    public void onProductReceived(Product product) {
+        if (product != null) {
             product_name.setText(product.getName());
             product_price.setText(product.getPrice() + "€");
 
             RequestEventAsyncTask requestEventAsyncTask = new RequestEventAsyncTask(this);
             requestEventAsyncTask.execute(product.getEvent_slug());
+        }
+    }
+
+    @Override
+    public void onOrderReceived(Order order) {
+        if(order != null){
+            System.out.println(order.getTransaction_id());
+            //@TODO
         }
     }
 }

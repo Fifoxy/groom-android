@@ -1,7 +1,13 @@
 package com.hufi.taxmanreader.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.google.gson.Gson;
+import com.hufi.taxmanreader.R;
+import com.hufi.taxmanreader.TaxmanReaderApplication;
 import com.hufi.taxmanreader.model.Event;
+import com.hufi.taxmanreader.model.Order;
 import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.model.Ticket;
 
@@ -22,6 +28,7 @@ public class Requests {
     public static final String HOST = "https://tickets.gala-isen.fr/api/";
     public static final String EVENT_PATH = "events/";
     public static final String PRODUCT_PATH = "products/";
+    public static final String ORDER_PATH = "orders/";
 
 
     public static Event searchEvent(String event_slug){
@@ -69,6 +76,37 @@ public class Requests {
 
                 Gson gson = new Gson();
                 return gson.fromJson(result, Product.class);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static Order searchOrder(Integer order_id){
+        try{
+            String request = null;
+
+            request = HOST + ORDER_PATH + order_id.toString();
+
+            SharedPreferences sharedPreferences = TaxmanReaderApplication.getContext().getSharedPreferences(TaxmanReaderApplication.getContext().getString(R.string.yoshimi), Context.MODE_PRIVATE);
+            String token = sharedPreferences.getString(TaxmanReaderApplication.getContext().getString(R.string.yoshimi_token), "");
+
+            final HttpURLConnection connection;
+            connection = (HttpURLConnection) new URL(request).openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", "JWT " + token);
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+            final int responseCode = connection.getResponseCode();
+
+            if (responseCode == 200) {
+                String result = convertStreamToString(connection.getInputStream());
+
+                Gson gson = new Gson();
+                return gson.fromJson(result, Order.class);
             }
         }
         catch (IOException e) {

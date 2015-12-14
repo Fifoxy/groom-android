@@ -24,6 +24,6 @@ public class RequestEventAsyncTask extends AsyncTask<String, Integer, Event> {
 
     @Override
     protected void onPostExecute(Event event) {
-        this.requestEventListener.onResponseReceived(event);
+        this.requestEventListener.onEventReceived(event);
     }
 }
