@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         findViewById(R.id.scanner_button).setOnClickListener(this);
+        findViewById(R.id.login_button).setOnClickListener(this);
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }
 
@@ -49,7 +50,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, ScannerActivity.class);
-        startActivity(intent);
+        if (v.getId() == R.id.scanner_button) {
+            Intent intent = new Intent(this, ScannerActivity.class);
+            startActivity(intent);
+        }
+
+        if (v.getId() == R.id.login_button) {
+            Intent intent = new Intent(this, YoshimiActivity.class);
+            startActivity(intent);
+        }
     }
 }

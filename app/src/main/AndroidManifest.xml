@@ -29,6 +29,8 @@
 
         </activity>
 
+        <activity android:name=".activities.YoshimiActivity"
+                  android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

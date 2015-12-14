@@ -6,9 +6,24 @@
     <string name="public_key">MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEASezeQmkN3NVL6PcfGXv0lkftLh0
         8tf70W+j7KwmWO5y1rygtEODKb5dyvj/63NEwzon3zLOAwqOTPwxC59pyQ==</string>
 
+    <!-- Yoshimi -->
+    <string name="client_id">5wspoMzAXHO5XpTXdvtPsv7zjS_qpUuTgrTsYa10jUvzAhMYnxCCItRp</string>
+    <string name="authorize_endpoint">https://www.wapitisen.fr/sso/oauth/authorize</string>
+    <string name="redirect_uri">https://tickets.gala-isen.fr/</string>
+    <string name="yoshimi_issuer">https://www.wapitisen.fr</string>
+    <string name="yoshimi_key">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuINbLPfPI10l+tzNpaMH
+        9Hwp63zKDNrEioMVpd0V5BG2m0+WaWjA47D+yEOzpbP1fK8440rTMmDBRiHyB2yj
+        M9QP+rz6gUfhE5O+F/Q887hpXf8GMgfSSyYPBVNYLa/7lRWK0Q3xUMLnwhlK9Ncc
+        E0k4VsLmHybcY36paV1388hAOM+H+7vv8yTX7bsvYcgshxpaUVUAQhb+ivQWMewm
+        kKxqbhFmrJscJE7WJZFBvT+R8MWH83hZaISAZHR92ZO+53CuPYFBsUxX4kk8f5Nd
+        DXZqdpmIfKgQmzLAzmLfICrPZF7gQlZk/lIpipdH1jjbgIgHXUq6RyKb6w1qhtw9
+        7QIDAQAB</string>
+
     <!-- SCANNER -->
     <string name="scanner">Scanner</string>
     <string name="wrong_QR_Code">QR Code invalide</string>
+
+    <string name="login">Login</string>
 
     <!-- RESULT -->
     <string name="scanner_result">Résultat</string>
