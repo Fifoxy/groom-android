@@ -27,6 +27,7 @@ import com.hufi.taxmanreader.model.Order;
 import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
+import com.victor.loading.rotate.RotateLoading;
 
 
 /**
@@ -53,6 +54,9 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
     private TextView product_label;
     private CardView event_information;
     private TextView event_label;
+
+    private RotateLoading event_loading;
+    private RotateLoading ticket_loading;
 
     public static ResultFragment newInstance(String result) {
         final ResultFragment resultFragment = new ResultFragment();
@@ -86,6 +90,9 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.scanner_result));
 
+        event_loading = (RotateLoading) this.rootView.findViewById(R.id.progress_event);
+        ticket_loading = (RotateLoading) this.rootView.findViewById(R.id.progress_ticket);
+
         load();
         return this.rootView;
     }
@@ -96,6 +103,8 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
         assert result != null;
         if (!result.isEmpty()) {
             success();
+            event_loading.start();
+            ticket_loading.start();
         } else {
             failure();
         }
@@ -117,7 +126,7 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
         RequestProductAsyncTask requestProductAsyncTask = new RequestProductAsyncTask(this);
         requestProductAsyncTask.execute(ticket.getPrid());
 
-        if(TaxmanUtils.userConnected()){
+        if (TaxmanUtils.userConnected()) {
             RequestOrderAsyncTask requestOrderAsyncTask = new RequestOrderAsyncTask(this);
             requestOrderAsyncTask.execute(Integer.valueOf(ticket.getOrid()));
         }
@@ -147,23 +156,31 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
             event_name.setText(event.getName());
             event_location.setText(event.getPlace().getName());
         }
+
+        event_loading.stop();
     }
 
     @Override
     public void onProductReceived(Product product) {
         if (product != null) {
             product_name.setText(product.getName());
-            product_price.setText(product.getPrice() + "€");
+            product_price.setText("\t\t\t" + product.getPrice() + "€");
 
             RequestEventAsyncTask requestEventAsyncTask = new RequestEventAsyncTask(this);
             requestEventAsyncTask.execute(product.getEvent_slug());
         }
+
+        ticket_loading.stop();
     }
 
     @Override
     public void onOrderReceived(Order order) {
-        if(order != null){
+        if (order != null) {
             System.out.println(order.getTransaction_id());
+            for (Ticket t : order.getTickets()) {
+                System.out.println(t.getTicket_id());
+            }
+
             //@TODO
         }
     }

@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.TaxmanReaderApplication;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(TaxmanUtils.userConnected()){
                 SharedPreferences prefs = TaxmanReaderApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
                 prefs.edit().remove(getString(R.string.yoshimi_token)).apply();
+                Toast.makeText(TaxmanReaderApplication.getContext(), getString(R.string.valid_log_out), Toast.LENGTH_LONG).show();
                 item.setTitle(getString(R.string.sign_in));
             } else {
                 Intent intent = new Intent(this, YoshimiActivity.class);

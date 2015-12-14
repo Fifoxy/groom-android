@@ -3,6 +3,8 @@
     <string name="action_settings">Réglages</string>
     <string name="sign_in">Connexion</string>
     <string name="log_out">Déconnexion</string>
+    <string name="valid_sign_in">Connexion réussie</string>
+    <string name="valid_log_out">Vous êtes maintenant déconnecté</string>
 
     <!-- PUBLIC KEY -->
     <string name="public_key">MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEASezeQmkN3NVL6PcfGXv0lkftLh0

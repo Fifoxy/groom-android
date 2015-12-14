@@ -13,6 +13,8 @@ import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.CookieManager;
+import android.widget.Toast;
+
 import com.google.common.base.Splitter;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.TaxmanReaderApplication;
@@ -79,6 +81,7 @@ public class YoshimiActivity extends Activity {
                 SharedPreferences prefs = TaxmanReaderApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString(getString(R.string.yoshimi_token), params.get("id_token")).apply();
+                Toast.makeText(TaxmanReaderApplication.getContext(), getString(R.string.valid_sign_in), Toast.LENGTH_LONG).show();
                 finish();
             }
         } catch (NoSuchAlgorithmException e) {
