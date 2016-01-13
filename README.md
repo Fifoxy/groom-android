@@ -1,4 +1,4 @@
-# taxman-android
-Taxman tickets reader Android app 
+# groom-android
+Groom tickets reader Android app 
 
-Taxman: https://github.com/hugoatease/taxman
+Groom: https://github.com/hugoatease/taxman
