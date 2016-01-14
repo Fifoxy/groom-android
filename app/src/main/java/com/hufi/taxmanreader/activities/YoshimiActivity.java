@@ -48,7 +48,7 @@ public class YoshimiActivity extends Activity {
         this.nonce = UUID.randomUUID().toString();
 
         final String authorizeUri = getString(R.string.authorize_endpoint) + "?client_id=" + getString(R.string.client_id)
-                + "&redirect_uri=" + getString(R.string.redirect_uri) + "&scope=openid+profile&response_type=id_token+token" +
+                + "&redirect_uri=" + getString(R.string.redirect_uri) + "&scope=openid+profile+email&response_type=id_token+token" +
                 "&nonce=" + this.nonce;
 
         webView.setWebViewClient(new YoshimiClient());
@@ -81,6 +81,7 @@ public class YoshimiActivity extends Activity {
                 SharedPreferences prefs = TaxmanReaderApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString(getString(R.string.yoshimi_token), params.get("id_token")).apply();
+                editor.putString(getString(R.string.access_token), params.get("access_token")).apply();
                 Toast.makeText(TaxmanReaderApplication.getContext(), getString(R.string.valid_sign_in), Toast.LENGTH_LONG).show();
                 finish();
             }

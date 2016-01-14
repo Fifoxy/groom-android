@@ -1,10 +1,18 @@
 <resources>
-    <string name="app_name">Taxman Reader</string>
+    <string name="app_name">Groom Reader</string>
     <string name="action_settings">Réglages</string>
+    <string name="about">About</string>
+    <string name="account">Compte</string>
     <string name="sign_in">Connexion</string>
     <string name="log_out">Déconnexion</string>
     <string name="valid_sign_in">Connexion réussie</string>
     <string name="valid_log_out">Vous êtes maintenant déconnecté</string>
+    <string name="status">Statut de la connexion</string>
+    <string name="infos">Informations sur le compte</string>
+    <string name="expiration">Expiration de la durée du token</string>
+
+    <string name="isconnected">Connecté(e) sous</string>
+    <string name="notconnected">Vous n\'êtes pas connecté(e)</string>
 
     <!-- PUBLIC KEY -->
     <string name="public_key">MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEASezeQmkN3NVL6PcfGXv0lkftLh0
@@ -16,6 +24,7 @@
     <string name="redirect_uri">https://tickets.gala-isen.fr/login_return</string>
     <string name="yoshimi">Yoshimi</string>
     <string name="yoshimi_token">Yoshimi token</string>
+    <string name="access_token">Access token</string>
     <string name="yoshimi_issuer">https://www.wapitisen.fr</string>
     <string name="yoshimi_key">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuINbLPfPI10l+tzNpaMH
         9Hwp63zKDNrEioMVpd0V5BG2m0+WaWjA47D+yEOzpbP1fK8440rTMmDBRiHyB2yj
