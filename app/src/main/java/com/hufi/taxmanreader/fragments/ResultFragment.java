@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hufi.taxmanreader.R;
@@ -29,9 +28,6 @@ import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 import com.victor.loading.rotate.RotateLoading;
-
-import org.w3c.dom.Text;
-
 
 /**
  * Created by Pierre Defache on 13/12/2015.

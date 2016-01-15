@@ -1,20 +1,20 @@
 <resources>
     <string name="app_name">Groom Reader</string>
-    <string name="action_settings">Settings</string>
-    <string name="about">About</string>
-    <string name="account">Account</string>
-    <string name="sign_in">Log in</string>
-    <string name="log_out">Log out</string>
-    <string name="valid_sign_in">Successful connection</string>
-    <string name="valid_log_out">You are now disconnected</string>
-    <string name="status">Connection status</string>
-    <string name="infos">Account information</string>
-    <string name="expiration">Token\'s expiry</string>
-    <string name="revoked">Ticket cancelled</string>
-    <string name="invalid">Invalid ticket</string>
+    <string name="action_settings">Réglages</string>
+    <string name="about">A propos</string>
+    <string name="account">Compte</string>
+    <string name="sign_in">Connexion</string>
+    <string name="log_out">Déconnexion</string>
+    <string name="valid_sign_in">Connexion réussie</string>
+    <string name="valid_log_out">Vous êtes maintenant déconnecté</string>
+    <string name="status">Statut de la connexion</string>
+    <string name="infos">Informations sur le compte</string>
+    <string name="expiration">Expiration de la durée du token</string>
+    <string name="revoked">Ticket annulé</string>
+    <string name="invalid">Ticket invalide</string>
 
-    <string name="isconnected">Log as</string>
-    <string name="notconnected">You are not logged in</string>
+    <string name="isconnected">Connecté(e) sous</string>
+    <string name="notconnected">Vous n\'êtes pas connecté(e)</string>
 
     <!-- PUBLIC KEY -->
     <string name="public_key">MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEASezeQmkN3NVL6PcfGXv0lkftLh0
@@ -38,21 +38,21 @@
 
     <!-- SCANNER -->
     <string name="scanner">Scanner</string>
-    <string name="wrong_QR_Code">Invalid QR Code</string>
+    <string name="wrong_QR_Code">QR Code invalide</string>
 
     <!-- RESULT -->
-    <string name="scanner_result">Result</string>
-    <string name="access_granted">Access granted</string>
-    <string name="access_denied">Access denied</string>
-    <string name="lastname">Lastname</string>
-    <string name="firstname">Firstname</string>
+    <string name="scanner_result">Résultat</string>
+    <string name="access_granted">Accès autorisé</string>
+    <string name="access_denied">Accès refusé</string>
+    <string name="lastname">Nom</string>
+    <string name="firstname">Prénom</string>
     <string name="ticket_id">ID</string>
 
-    <string name="ticket_info">Ticket information</string>
-    <string name="event_info">Event information</string>
+    <string name="ticket_info">Information sur le ticket</string>
+    <string name="event_info">Information sur l\'évènement</string>
 
-    <string name="product_name_label">Product</string>
-    <string name="product_price_label">Price</string>
-    <string name="event_place">Place</string>
+    <string name="product_name_label">Produit</string>
+    <string name="product_price_label">Prix</string>
+    <string name="event_place">Lieu</string>
 
 </resources>
