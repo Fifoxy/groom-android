@@ -10,6 +10,8 @@
     <string name="status">Statut de la connexion</string>
     <string name="infos">Informations sur le compte</string>
     <string name="expiration">Expiration de la durée du token</string>
+    <string name="revoked">Ticket revoked</string>
+    <string name="invalid">Ticket invalide</string>
 
     <string name="isconnected">Connecté(e) sous</string>
     <string name="notconnected">Vous n\'êtes pas connecté(e)</string>

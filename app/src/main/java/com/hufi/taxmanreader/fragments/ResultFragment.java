@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hufi.taxmanreader.R;
@@ -29,6 +30,8 @@ import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 import com.victor.loading.rotate.RotateLoading;
 
+import org.w3c.dom.Text;
+
 
 /**
  * Created by Pierre Defache on 13/12/2015.
@@ -43,6 +46,7 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
     private TextView lastname;
     private TextView firstname;
     private TextView ticket_id;
+    private TextView revoked;
 
     private TextView product_name;
     private TextView product_price;
@@ -75,6 +79,7 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
         lastname = (TextView) this.rootView.findViewById(R.id.lastname);
         firstname = (TextView) this.rootView.findViewById(R.id.firstname);
         ticket_id = (TextView) this.rootView.findViewById(R.id.ticket_id);
+        revoked = (TextView) this.rootView.findViewById(R.id.revoked);
 
         product_name = (TextView) this.rootView.findViewById(R.id.product_name);
         product_price = (TextView) this.rootView.findViewById(R.id.product_price);
@@ -106,7 +111,7 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
             event_loading.start();
             ticket_loading.start();
         } else {
-            failure();
+            failure(getString(R.string.invalid));
         }
     }
 
@@ -132,11 +137,14 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
         }
     }
 
-    private void failure() {
+    private void failure(String msg) {
         status.setImageDrawable(getActivity().getDrawable(R.drawable.ic_block));
         status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.denied)));
         statusText.setText(getString(R.string.access_denied));
         statusText.setTextColor(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.denied));
+
+        revoked.setText(msg);
+        revoked.setVisibility(View.VISIBLE);
 
         hideCards();
     }
@@ -176,12 +184,9 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
     @Override
     public void onOrderReceived(Order order) {
         if (order != null) {
-            System.out.println(order.getTransaction_id());
-            for (Ticket t : order.getTickets()) {
-                System.out.println(t.getTicket_id());
+            if(order.getRevoked()){
+                failure(getString(R.string.revoked));
             }
-
-            //@TODO
         }
     }
 }

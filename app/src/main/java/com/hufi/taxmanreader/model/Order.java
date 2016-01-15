@@ -14,11 +14,13 @@ public class Order {
 
     private Boolean finished;
     private Boolean paid;
+    private Boolean revoked;
 
     private Integer id;
     private String transaction_id;
     private Integer product_id;
     private Integer person_id;
+
 
     public List<Ticket> getTickets() {
         return tickets;
@@ -43,6 +45,8 @@ public class Order {
     public Boolean getPaid() {
         return paid;
     }
+
+    public Boolean getRevoked() { return revoked; }
 
     public Integer getId() {
         return id;
