@@ -3,6 +3,8 @@
     <string name="action_settings">Réglages</string>
     <string name="about">A propos</string>
     <string name="account">Compte</string>
+    <string name="Camera">Changez de caméra</string>
+    <string name="flash">Flash</string>
     <string name="sign_in">Connexion</string>
     <string name="log_out">Déconnexion</string>
     <string name="valid_sign_in">Connexion réussie</string>

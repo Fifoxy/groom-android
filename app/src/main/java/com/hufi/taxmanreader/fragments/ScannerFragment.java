@@ -3,10 +3,15 @@ package com.hufi.taxmanreader.fragments;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.hardware.camera2.*;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -39,12 +44,15 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class ScannerFragment extends Fragment implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
 
+    private String cameraIDUsed;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         mScannerView = new ZXingScannerView(getActivity());
         mScannerView.setAutoFocus(true);
 
         setupFormats();
+        if(!setUpBackCamera()) cameraIDUsed = "0";
         return mScannerView;
     }
 
@@ -59,7 +67,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
         super.onResume();
         mScannerView.setResultHandler(this);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.scanner));
-        mScannerView.startCamera();
+        mScannerView.startCamera(Integer.valueOf(cameraIDUsed));
     }
 
     @Override
@@ -78,6 +86,28 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.turn_flash:
+                if(mScannerView.getFlash()){
+                    mScannerView.setFlash(false);
+                    if(!mScannerView.getFlash()) item.setIcon(R.drawable.ic_action_flash);
+                } else {
+                    mScannerView.setFlash(true);
+                    if(mScannerView.getFlash()) item.setIcon(R.drawable.ic_action_flash_light);
+                }
+                break;
+            case R.id.swap_camera:
+                changeCamera();
+                mScannerView.stopCamera();
+                mScannerView.startCamera(Integer.valueOf(cameraIDUsed));
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void handleResult(Result result) {
@@ -101,6 +131,43 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
             Toast.makeText(TaxmanReaderApplication.getContext(), getString(R.string.wrong_QR_Code), Toast.LENGTH_SHORT).show();
             getActivity().finish();
         }
+    }
+
+
+    private boolean changeCamera(){
+        CameraManager cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+
+        try {
+            for(String s : cameraManager.getCameraIdList()) {
+                if (!s.equals(cameraIDUsed)) {
+                    cameraIDUsed = s;
+                    return true;
+                }
+            }
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    private boolean setUpBackCamera(){
+        CameraManager cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+
+        try {
+            for(String s : cameraManager.getCameraIdList()) {
+                CameraCharacteristics carac = cameraManager.getCameraCharacteristics(s);
+                int cOrientation = carac.get(CameraCharacteristics.LENS_FACING);
+                if(!(cOrientation == CameraCharacteristics.LENS_FACING_FRONT)){
+                    cameraIDUsed = s;
+                    return true;
+                }
+            }
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     private void launchResult(String jsonResult){
