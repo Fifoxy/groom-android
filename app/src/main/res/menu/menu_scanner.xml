@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/turn_flash"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/flash"
+        android:icon="@drawable/ic_action_flash" />
+
+    <item
+        android:id="@+id/swap_camera"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/Camera"
+        android:icon="@drawable/ic_action_camera" />
+
+</menu>
