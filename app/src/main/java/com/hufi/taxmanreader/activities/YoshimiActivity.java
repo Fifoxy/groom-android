@@ -33,9 +33,6 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * Created by hugo on 13/12/15.
- */
 
 public class YoshimiActivity extends Activity {
     private String nonce;

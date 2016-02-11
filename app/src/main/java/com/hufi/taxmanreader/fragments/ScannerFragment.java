@@ -20,6 +20,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.TaxmanReaderApplication;
+import com.hufi.taxmanreader.utils.GroomScannerView;
 
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.JwtClaims;
@@ -38,22 +39,24 @@ import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-/**
- * Created by Pierre Defache on 13/12/2015.
- */
 public class ScannerFragment extends Fragment implements ZXingScannerView.ResultHandler {
-    private ZXingScannerView mScannerView;
+  //  private ZXingScannerView mScannerView;
+
+    private GroomScannerView groomScannerView;
 
     private String cameraIDUsed;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        mScannerView = new ZXingScannerView(getActivity());
-        mScannerView.setAutoFocus(true);
+        groomScannerView = new GroomScannerView(getActivity());
+        groomScannerView.setAutoFocus(true);
+       /* mScannerView = new ZXingScannerView(getActivity());
+        mScannerView.setAutoFocus(true);*/
 
         setupFormats();
         if(!setUpBackCamera()) cameraIDUsed = "0";
-        return mScannerView;
+        //return mScannerView;
+        return groomScannerView;
     }
 
     @Override
@@ -65,23 +68,23 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     @Override
     public void onResume() {
         super.onResume();
-        mScannerView.setResultHandler(this);
+        groomScannerView.setResultHandler(this);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.scanner));
-        mScannerView.startCamera(Integer.valueOf(cameraIDUsed));
+        groomScannerView.startCamera(Integer.valueOf(cameraIDUsed));
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mScannerView.stopCamera();
+        groomScannerView.stopCamera();
     }
 
     public void setupFormats() {
         List<BarcodeFormat> formats = new ArrayList<BarcodeFormat>();
         formats.add(BarcodeFormat.QR_CODE);
 
-        if (mScannerView != null) {
-            mScannerView.setFormats(formats);
+        if (groomScannerView != null) {
+            groomScannerView.setFormats(formats);
         }
     }
 
@@ -90,18 +93,18 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.turn_flash:
-                if(mScannerView.getFlash()){
-                    mScannerView.setFlash(false);
-                    if(!mScannerView.getFlash()) item.setIcon(R.drawable.ic_action_flash);
+                if(groomScannerView.getFlash()){
+                    groomScannerView.setFlash(false);
+                    if(!groomScannerView.getFlash()) item.setIcon(R.drawable.ic_action_flash);
                 } else {
-                    mScannerView.setFlash(true);
-                    if(mScannerView.getFlash()) item.setIcon(R.drawable.ic_action_flash_light);
+                    groomScannerView.setFlash(true);
+                    if(groomScannerView.getFlash()) item.setIcon(R.drawable.ic_action_flash_light);
                 }
                 break;
             case R.id.swap_camera:
                 changeCamera();
-                mScannerView.stopCamera();
-                mScannerView.startCamera(Integer.valueOf(cameraIDUsed));
+                groomScannerView.stopCamera();
+                groomScannerView.startCamera(Integer.valueOf(cameraIDUsed));
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -134,6 +137,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     }
 
 
+
     private boolean changeCamera(){
         CameraManager cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
 
@@ -163,7 +167,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
                     return true;
                 }
             }
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException  e) {
             e.printStackTrace();
         }
 

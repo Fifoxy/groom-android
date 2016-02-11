@@ -31,9 +31,6 @@ import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 import com.victor.loading.rotate.RotateLoading;
 
-/**
- * Created by Pierre Defache on 13/12/2015.
- */
 public class ResultFragment extends Fragment implements RequestProductListener, RequestEventListener, RequestOrderListener {
 
     private View rootView;

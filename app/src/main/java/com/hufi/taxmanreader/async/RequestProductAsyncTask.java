@@ -6,9 +6,6 @@ import com.hufi.taxmanreader.listeners.RequestProductListener;
 import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.utils.Requests;
 
-/**
- * Created by Pierre Defache on 13/12/2015.
- */
 public class RequestProductAsyncTask extends AsyncTask<String, Integer, Product> {
 
     private RequestProductListener requestProductListener;

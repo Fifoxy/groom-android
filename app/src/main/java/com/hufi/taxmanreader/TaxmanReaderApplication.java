@@ -21,9 +21,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Map;
 
-/**
- * Created by Pierre Defache on 12/12/2015.
- */
 public class TaxmanReaderApplication extends Application {
     private static Context sContext;
 

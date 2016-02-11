@@ -20,9 +20,6 @@ import com.hufi.taxmanreader.model.User;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 
 
-/**
- * Created by pierre on 14/01/16.
- */
 public class AccountActivity extends AppCompatActivity implements View.OnClickListener, RequestUserListener {
 
     private Button signButton;

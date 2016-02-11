@@ -1,8 +1,5 @@
 package com.hufi.taxmanreader.model;
 
-/**
- * Created by Pierre Defache on 13/12/2015.
- */
 public class Place {
     private String address;
     private Integer id;

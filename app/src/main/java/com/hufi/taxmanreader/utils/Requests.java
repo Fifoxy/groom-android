@@ -21,9 +21,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-/**
- * Created by Pierre Defache on 13/12/2015.
- */
+
 public class Requests {
 
     public static final String HOST = "https://tickets.gala-isen.fr/api/";

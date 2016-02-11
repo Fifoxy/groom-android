@@ -6,9 +6,6 @@ import android.content.SharedPreferences;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.TaxmanReaderApplication;
 
-/**
- * Created by Pierre Defache on 14/12/2015.
- */
 public class TaxmanUtils {
 
     public static boolean userConnected(){

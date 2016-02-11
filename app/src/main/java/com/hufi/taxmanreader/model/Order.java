@@ -2,9 +2,6 @@ package com.hufi.taxmanreader.model;
 
 import java.util.List;
 
-/**
- * Created by Pierre Defache on 14/12/2015.
- */
 public class Order {
     private List<Ticket> tickets;
     private Product product;

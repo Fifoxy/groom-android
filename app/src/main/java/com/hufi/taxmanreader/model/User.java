@@ -1,8 +1,5 @@
 package com.hufi.taxmanreader.model;
 
-/**
- * Created by pierre on 14/01/16.
- */
 public class User {
     private String given_name;
     private String family_name;

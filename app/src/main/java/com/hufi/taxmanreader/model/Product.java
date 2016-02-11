@@ -1,8 +1,5 @@
 package com.hufi.taxmanreader.model;
 
-/**
- * Created by Pierre Defache on 13/12/2015.
- */
 public class Product {
     private String event_slug;
     private String price;

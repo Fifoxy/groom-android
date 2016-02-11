@@ -6,9 +6,6 @@ import com.hufi.taxmanreader.listeners.RequestEventListener;
 import com.hufi.taxmanreader.model.Event;
 import com.hufi.taxmanreader.utils.Requests;
 
-/**
- * Created by Pierre Defache on 13/12/2015.
- */
 public class RequestEventAsyncTask extends AsyncTask<String, Integer, Event> {
 
     private RequestEventListener requestEventListener;
