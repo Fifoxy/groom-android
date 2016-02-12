@@ -138,7 +138,7 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
     }
 
     private void success() {
-        status.setImageDrawable(getActivity().getDrawable(R.drawable.ic_done));
+        status.setImageDrawable(TaxmanReaderApplication.getContext().getResources().getDrawable(R.drawable.ic_done));
         status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.granted)));
         statusText.setText(getString(R.string.access_granted));
         statusText.setTextColor(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.granted));
@@ -160,7 +160,7 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
     }
 
     private void failure(String msg) {
-        status.setImageDrawable(getActivity().getDrawable(R.drawable.ic_block));
+        status.setImageDrawable(TaxmanReaderApplication.getContext().getResources().getDrawable(R.drawable.ic_block));
         status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.denied)));
         statusText.setText(getString(R.string.access_denied));
         statusText.setTextColor(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.denied));

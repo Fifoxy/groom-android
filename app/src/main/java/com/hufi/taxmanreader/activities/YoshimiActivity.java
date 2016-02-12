@@ -49,12 +49,14 @@ public class YoshimiActivity extends Activity {
                 "&nonce=" + this.nonce;
 
         webView.setWebViewClient(new YoshimiClient());
-        CookieManager.getInstance().removeAllCookies(new ValueCallback<Boolean>() {
+        CookieManager.getInstance().removeAllCookie();
+        webView.loadUrl(authorizeUri);
+        /*removeAllCookies(new ValueCallback<Boolean>() {
             @Override
             public void onReceiveValue(Boolean value) {
                 webView.loadUrl(authorizeUri);
             }
-        });
+        });*/
     }
 
     public void onYoshimiReturn(Uri uri) {

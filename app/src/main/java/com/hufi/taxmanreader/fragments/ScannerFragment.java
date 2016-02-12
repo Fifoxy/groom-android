@@ -4,7 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.hardware.camera2.*;
+import android.hardware.Camera;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -145,39 +145,22 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
 
 
     private boolean changeCamera(){
-        CameraManager cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+        int camBackId = Camera.CameraInfo.CAMERA_FACING_BACK;
+        int camFrontId = Camera.CameraInfo.CAMERA_FACING_FRONT;
 
-        try {
-            for(String s : cameraManager.getCameraIdList()) {
-                if (!s.equals(cameraIDUsed)) {
-                    cameraIDUsed = s;
-                    return true;
-                }
-            }
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
+        if(Integer.valueOf(cameraIDUsed) == camBackId){
+            cameraIDUsed = String.valueOf(camFrontId);
+        } else {
+            cameraIDUsed = String.valueOf(camBackId);
         }
 
-        return false;
+        return true;
     }
 
     private boolean setUpBackCamera(){
-        CameraManager cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
-
-        try {
-            for(String s : cameraManager.getCameraIdList()) {
-                CameraCharacteristics carac = cameraManager.getCameraCharacteristics(s);
-                int cOrientation = carac.get(CameraCharacteristics.LENS_FACING);
-                if(!(cOrientation == CameraCharacteristics.LENS_FACING_FRONT)){
-                    cameraIDUsed = s;
-                    return true;
-                }
-            }
-        } catch (CameraAccessException  e) {
-            e.printStackTrace();
-        }
-
-        return false;
+        int camBackId = Camera.CameraInfo.CAMERA_FACING_BACK;
+        cameraIDUsed = String.valueOf(camBackId);
+        return true;
     }
 
     private void launchResult(String jsonResult){

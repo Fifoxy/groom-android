@@ -96,10 +96,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             msg = getString(R.string.notconnected);
         }
 
-        TSnackbar snackbar = TSnackbar.make(findViewById(R.id.main_content), msg, TSnackbar.LENGTH_LONG);
+        TSnackbar snackbar = TSnackbar.make(findViewById(R.id.main_content), msg, TSnackbar.LENGTH_SHORT);
 
-        snackbar.addIcon(R.drawable.ic_action_user, 200);
-                View snackbarView = snackbar.getView();
+        View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.colorAccent));
         TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
         textView.setTextColor(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.whiteText));
