@@ -27,6 +27,17 @@
             android:layout_marginBottom="50dp"/>
 
 
+        <com.victor.loading.rotate.RotateLoading
+            android:id="@+id/progress_account_information"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:loading_width="3dp"
+            app:loading_color="#EF6C00"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"/>
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +57,9 @@
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="25sp"
+            android:background="@color/colorAccent"
+            android:textColor="@color/whiteText"
             android:text="@string/sign_in"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"

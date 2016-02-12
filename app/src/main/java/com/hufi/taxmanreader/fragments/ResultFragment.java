@@ -13,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hufi.taxmanreader.R;
@@ -31,10 +33,12 @@ import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 import com.victor.loading.rotate.RotateLoading;
 
-public class ResultFragment extends Fragment implements RequestProductListener, RequestEventListener, RequestOrderListener {
+public class ResultFragment extends Fragment implements RequestProductListener, RequestEventListener, RequestOrderListener, View.OnClickListener {
 
     private View rootView;
     private String result;
+
+    private boolean manual;
 
     private FloatingActionButton status;
     private TextView statusText;
@@ -57,10 +61,13 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
     private RotateLoading event_loading;
     private RotateLoading ticket_loading;
 
-    public static ResultFragment newInstance(String result) {
+    private Button validate_button;
+
+    public static ResultFragment newInstance(String result, Boolean isManual) {
         final ResultFragment resultFragment = new ResultFragment();
         final Bundle arguments = new Bundle();
         arguments.putString(TaxmanReaderApplication.getContext().getString(R.string.scanner_result), result);
+        arguments.putBoolean(TaxmanReaderApplication.getContext().getString(R.string.scanner_manual), isManual);
         resultFragment.setArguments(arguments);
         return resultFragment;
     }
@@ -93,7 +100,15 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
         event_loading = (RotateLoading) this.rootView.findViewById(R.id.progress_event);
         ticket_loading = (RotateLoading) this.rootView.findViewById(R.id.progress_ticket);
 
-        load();
+        validate_button = (Button) this.rootView.findViewById(R.id.validate_button);
+        validate_button.setOnClickListener(this);
+
+        if(!manual) {
+            load();
+        } else {
+            //@TODO
+        }
+
         return this.rootView;
     }
 
@@ -193,7 +208,17 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
         if (order != null) {
             if(order.getRevoked()){
                 failure(getString(R.string.revoked));
+            } else {
+                this.validate_button.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.validate_button){
+            Toast.makeText(TaxmanReaderApplication.getContext(), "@TODO", Toast.LENGTH_SHORT).show();
+            getActivity().getFragmentManager().popBackStack();
         }
     }
 }

@@ -5,6 +5,7 @@
     <string name="account">Account</string>
     <string name="Camera">Camera swap</string>
     <string name="flash">Flash</string>
+    <string name="or">OR</string>
     <string name="sign_in">Log in</string>
     <string name="log_out">Log out</string>
     <string name="valid_sign_in">Successful connection</string>
@@ -16,6 +17,7 @@
     <string name="invalid">Invalid ticket</string>
 
     <string name="isconnected">Log as</string>
+    <string name="connected">Connected</string>
     <string name="notconnected">You are not logged in</string>
 
     <!-- PUBLIC KEY -->
@@ -40,15 +42,18 @@
 
     <!-- SCANNER -->
     <string name="scanner">Scanner</string>
+    <string name="check">Check</string>
     <string name="wrong_QR_Code">Invalid QR Code</string>
 
     <!-- RESULT -->
     <string name="scanner_result">Result</string>
+    <string name="scanner_manual">Manual</string>
     <string name="access_granted">Access granted</string>
     <string name="access_denied">Access denied</string>
     <string name="lastname">Lastname</string>
     <string name="firstname">Firstname</string>
     <string name="ticket_id">ID</string>
+    <string name="validate">Validate</string>
 
     <string name="ticket_info">Ticket information</string>
     <string name="event_info">Event information</string>

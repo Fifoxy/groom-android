@@ -7,6 +7,7 @@
     <string name="flash">Flash</string>
     <string name="sign_in">Connexion</string>
     <string name="log_out">Déconnexion</string>
+    <string name="or">OU</string>
     <string name="valid_sign_in">Connexion réussie</string>
     <string name="valid_log_out">Vous êtes maintenant déconnecté</string>
     <string name="status">Statut de la connexion</string>
@@ -16,6 +17,7 @@
     <string name="invalid">Ticket invalide</string>
 
     <string name="isconnected">Connecté(e) sous</string>
+    <string name="connected">Connecté(e)</string>
     <string name="notconnected">Vous n\'êtes pas connecté(e)</string>
 
     <!-- PUBLIC KEY -->
@@ -40,15 +42,18 @@
 
     <!-- SCANNER -->
     <string name="scanner">Scanner</string>
+    <string name="check">Vérifier</string>
     <string name="wrong_QR_Code">QR Code invalide</string>
 
     <!-- RESULT -->
     <string name="scanner_result">Résultat</string>
+    <string name="scanner_manual">Manuel</string>
     <string name="access_granted">Accès autorisé</string>
     <string name="access_denied">Accès refusé</string>
     <string name="lastname">Nom</string>
     <string name="firstname">Prénom</string>
     <string name="ticket_id">ID</string>
+    <string name="validate">Valider</string>
 
     <string name="ticket_info">Information sur le ticket</string>
     <string name="event_info">Information sur l\'évènement</string>

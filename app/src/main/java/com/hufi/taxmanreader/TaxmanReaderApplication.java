@@ -55,7 +55,10 @@ public class TaxmanReaderApplication extends Application {
 
             JwtClaims claims = jwtConsumer.processToClaims(prefs.getString(getString(R.string.yoshimi_token), ""));
 
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e){
+        } catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+
+        } catch(InvalidKeySpecException e){
             e.printStackTrace();
         } catch (InvalidJwtException e) {
             prefs.edit().remove(getString(R.string.yoshimi_token)).apply();

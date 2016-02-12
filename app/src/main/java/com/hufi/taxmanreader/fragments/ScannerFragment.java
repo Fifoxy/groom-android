@@ -130,9 +130,15 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
             launchResult(jwtClaims.getRawJson());
         } catch (InvalidJwtException ex) {
             launchResult("");
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException | JoseException ex) {
+        } catch (NoSuchAlgorithmException ex) {
             Toast.makeText(TaxmanReaderApplication.getContext(), getString(R.string.wrong_QR_Code), Toast.LENGTH_SHORT).show();
             getActivity().finish();
+        }
+        catch (InvalidKeySpecException ex){
+            ex.printStackTrace();
+        }
+        catch(JoseException ex){
+            ex.printStackTrace();
         }
     }
 
@@ -175,7 +181,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     }
 
     private void launchResult(String jsonResult){
-        ResultFragment fragment = ResultFragment.newInstance(jsonResult);
+        ResultFragment fragment = ResultFragment.newInstance(jsonResult, false);
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.scanner_container, fragment);

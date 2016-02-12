@@ -18,6 +18,7 @@ import com.hufi.taxmanreader.async.RequestUserAsyncTask;
 import com.hufi.taxmanreader.listeners.RequestUserListener;
 import com.hufi.taxmanreader.model.User;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
+import com.victor.loading.rotate.RotateLoading;
 
 
 public class AccountActivity extends AppCompatActivity implements View.OnClickListener, RequestUserListener {
@@ -27,6 +28,8 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
     private TextView status;
     private TextView infos;
+
+    private RotateLoading progress_account_information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +45,24 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
         this.status = (TextView) findViewById(R.id.sign_status);
         this.infos = (TextView) findViewById(R.id.sign_infos);
+        this.progress_account_information = (RotateLoading) findViewById(R.id.progress_account_information);
     }
 
     private void initialize(){
         this.infos.setVisibility(View.GONE);
         this.status.setVisibility(View.GONE);
         this.signButton.setVisibility(View.GONE);
+        this.progress_account_information.setVisibility(View.VISIBLE);
+
+        this.progress_account_information.start();
 
         if(!TaxmanUtils.userConnected()){
             this.status.setText(getString(R.string.notconnected));
             this.signButton.setText(getString(R.string.sign_in));
             this.signButton.setVisibility(View.VISIBLE);
             this.status.setVisibility(View.VISIBLE);
+            this.progress_account_information.stop();
+            this.progress_account_information.setVisibility(View.GONE);
         } else {
             RequestUserAsyncTask requestUserAsyncTask = new RequestUserAsyncTask(this);
             requestUserAsyncTask.execute();
@@ -119,5 +128,8 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             this.infos.setVisibility(View.VISIBLE);
             this.signButton.setVisibility(View.VISIBLE);
         }
+
+        this.progress_account_information.stop();
+        this.progress_account_information.setVisibility(View.GONE);
     }
 }
