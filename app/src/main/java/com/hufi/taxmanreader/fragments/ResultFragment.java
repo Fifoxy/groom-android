@@ -61,8 +61,6 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
     private RotateLoading event_loading;
     private RotateLoading ticket_loading;
 
-    private Button validate_button;
-
     public static ResultFragment newInstance(String result, Boolean isManual) {
         final ResultFragment resultFragment = new ResultFragment();
         final Bundle arguments = new Bundle();
@@ -99,9 +97,6 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
 
         event_loading = (RotateLoading) this.rootView.findViewById(R.id.progress_event);
         ticket_loading = (RotateLoading) this.rootView.findViewById(R.id.progress_ticket);
-
-        validate_button = (Button) this.rootView.findViewById(R.id.validate_button);
-        validate_button.setOnClickListener(this);
 
         if(!manual) {
             load();
@@ -208,8 +203,6 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
         if (order != null) {
             if(order.getRevoked()){
                 failure(getString(R.string.revoked));
-            } else {
-                this.validate_button.setVisibility(View.VISIBLE);
             }
         }
     }
