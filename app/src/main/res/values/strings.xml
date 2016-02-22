@@ -20,6 +20,11 @@
     <string name="connected">Connected</string>
     <string name="notconnected">You are not logged in</string>
 
+    <string name="sync_success">Synchronization complete</string>
+    <string name="sync_failed">Synchronization failed</string>
+
+    <string name="verif_failed">Verification failed (not connected)</string>
+
     <!-- PUBLIC KEY -->
     <string name="public_key">MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEASezeQmkN3NVL6PcfGXv0lkftLh0
         8tf70W+j7KwmWO5y1rygtEODKb5dyvj/63NEwzon3zLOAwqOTPwxC59pyQ==</string>
@@ -49,6 +54,7 @@
     <string name="scanner_result">Result</string>
     <string name="scanner_manual">Manual</string>
     <string name="access_granted">Access granted</string>
+    <string name="access_unchecked">Access unchecked</string>
     <string name="access_denied">Access denied</string>
     <string name="lastname">Lastname</string>
     <string name="firstname">Firstname</string>

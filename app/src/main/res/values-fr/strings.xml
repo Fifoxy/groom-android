@@ -19,6 +19,10 @@
     <string name="isconnected">Connecté(e) sous</string>
     <string name="connected">Connecté(e)</string>
     <string name="notconnected">Vous n\'êtes pas connecté(e)</string>
+    <string name="sync_success">Synchronisation réussie</string>
+    <string name="sync_failed">Synchronisation échouée</string>
+
+    <string name="verif_failed">Vérification impossible (non connecté)</string>
 
     <!-- PUBLIC KEY -->
     <string name="public_key">MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEASezeQmkN3NVL6PcfGXv0lkftLh0
@@ -49,6 +53,7 @@
     <string name="scanner_result">Résultat</string>
     <string name="scanner_manual">Manuel</string>
     <string name="access_granted">Accès autorisé</string>
+    <string name="access_unchecked">Accès non vérifié</string>
     <string name="access_denied">Accès refusé</string>
     <string name="lastname">Nom</string>
     <string name="firstname">Prénom</string>

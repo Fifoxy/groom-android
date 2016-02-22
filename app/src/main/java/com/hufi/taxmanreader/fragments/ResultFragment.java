@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hufi.taxmanreader.R;
@@ -121,11 +122,6 @@ public class ResultFragment extends Fragment {
     }
 
     private void success() {
-        status.setImageDrawable(GroomApplication.getContext().getResources().getDrawable(R.drawable.ic_done));
-        status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(GroomApplication.getContext(), R.color.granted)));
-        statusText.setText(getString(R.string.access_granted));
-        statusText.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.granted));
-
         Gson gson = new Gson();
         Ticket ticket = gson.fromJson(result, Ticket.class);
 
@@ -139,7 +135,7 @@ public class ResultFragment extends Fragment {
 
         if (product != null) {
             product_name.setText(product.getName());
-            product_price.setText("\t\t\t" + product.getPrice() + "€");
+            product_price.setText(String.format("%s€", product.getPrice()));
 
             if (product.getEvent() != null) {
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(product.getEvent().getName());
@@ -160,6 +156,11 @@ public class ResultFragment extends Fragment {
                     if (order != null) {
                         if(order.getRevoked()){
                             failure(getString(R.string.revoked));
+                        } else {
+                            status.setImageDrawable(GroomApplication.getContext().getResources().getDrawable(R.drawable.ic_done));
+                            status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(GroomApplication.getContext(), R.color.granted)));
+                            statusText.setText(getString(R.string.access_granted));
+                            statusText.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.granted));
                         }
                     }
                 }
@@ -169,6 +170,13 @@ public class ResultFragment extends Fragment {
 
                 }
             });
+        } else {
+            Toast.makeText(GroomApplication.getContext(), getString(R.string.verif_failed), Toast.LENGTH_SHORT).show();
+
+            status.setImageDrawable(GroomApplication.getContext().getResources().getDrawable(R.drawable.ic_block));
+            status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(GroomApplication.getContext(), R.color.colorAccent)));
+            statusText.setText(getString(R.string.access_unchecked));
+            statusText.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.colorAccent));
         }
     }
 

@@ -154,12 +154,12 @@ public class GroomApplication extends Application {
                 }
 
                 realm.commitTransaction();
-                Toast.makeText(GroomApplication.getContext(), "Synchronization complete", Toast.LENGTH_LONG).show();
+                Toast.makeText(GroomApplication.getContext(), getString(R.string.sync_success), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(Call<List<Event>> call, Throwable throwable) {
-                Toast.makeText(GroomApplication.getContext(), "Synchronization failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(GroomApplication.getContext(), getString(R.string.sync_failed), Toast.LENGTH_LONG).show();
             }
         });
     }
