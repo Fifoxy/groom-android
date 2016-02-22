@@ -15,6 +15,12 @@
     <string name="expiration">Expiration de la durée du token</string>
     <string name="revoked">Ticket annulé</string>
     <string name="invalid">Ticket invalide</string>
+    <string name="by_id">Via id</string>
+
+    <string name="dialog_message">Insérer un numéro de billet</string>
+    <string name="dialog_title">Scan manuel</string>
+    <string name="cancel">Annuler</string>
+
 
     <string name="isconnected">Connecté(e) sous</string>
     <string name="connected">Connecté(e)</string>

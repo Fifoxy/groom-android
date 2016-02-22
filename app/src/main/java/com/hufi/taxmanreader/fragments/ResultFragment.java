@@ -17,13 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.GroomApplication;
+import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.Order;
 import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.realm.RealmProduct;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
-import com.victor.loading.rotate.RotateLoading;
+
 import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -87,7 +87,7 @@ public class ResultFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.scanner_result));
 
-        if(!manual) {
+        if (!manual) {
             load();
         } else {
             //@TODO
@@ -114,8 +114,6 @@ public class ResultFragment extends Fragment {
         assert result != null;
         if (!result.isEmpty()) {
             success();
-            /*event_loading.start();
-            ticket_loading.start();*/
         } else {
             failure(getString(R.string.invalid));
         }
@@ -142,11 +140,8 @@ public class ResultFragment extends Fragment {
                 event_name.setText(product.getEvent().getName());
                 event_location.setText(product.getEvent().getPlace().getName());
             }
-
-            // event_loading.stop();
         }
 
-        // ticket_loading.stop();
 
         if (TaxmanUtils.userConnected()) {
             GroomApplication.service.getOrder(Integer.valueOf(ticket.getOrid())).enqueue(new Callback<Order>() {
@@ -183,7 +178,7 @@ public class ResultFragment extends Fragment {
         hideCards();
     }
 
-    private void setFab(int drawable, int color, int resId){
+    private void setFab(int drawable, int color, int resId) {
         status.setImageDrawable(GroomApplication.getContext().getResources().getDrawable(drawable));
         status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(GroomApplication.getContext(), color)));
         statusText.setText(getString(resId));

@@ -37,57 +37,6 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:layout_gravity="center" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/or"
-            android:id="@+id/ORView"
-            android:textStyle="bold"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:textColor="@color/whiteText"
-            android:layout_gravity="center" />
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/linearLayout2">
-
-                    <EditText
-                        android:layout_width="75dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:ems="10"
-                        android:textColor="@color/whiteText"
-                        android:hint="@string/ticket_id"
-                        android:textColorHint="@color/whiteText"
-                        android:id="@+id/ID_text"
-                        android:layout_gravity="center" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="25sp"
-                        android:background="@color/colorAccent"
-                        android:textColor="@color/whiteText"
-                        android:text="@string/check"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        android:id="@+id/check_button"
-                        android:layout_gravity="center" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
     </LinearLayout>
 
 

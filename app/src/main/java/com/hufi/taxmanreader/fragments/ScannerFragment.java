@@ -1,11 +1,12 @@
 package com.hufi.taxmanreader.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.hardware.Camera;
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -13,12 +14,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.GroomApplication;
+import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.utils.GroomScannerView;
 
 import org.jose4j.jws.JsonWebSignature;
@@ -39,7 +41,7 @@ import java.util.List;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerFragment extends Fragment implements ZXingScannerView.ResultHandler {
-  //  private ZXingScannerView mScannerView;
+    //  private ZXingScannerView mScannerView;
 
     private GroomScannerView groomScannerView;
 
@@ -53,7 +55,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
         mScannerView.setAutoFocus(true);*/
 
         setupFormats();
-        if(!setUpBackCamera()) cameraIDUsed = "0";
+        if (!setUpBackCamera()) cameraIDUsed = "0";
         //return mScannerView;
         return groomScannerView;
     }
@@ -68,7 +70,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     public void onResume() {
         super.onResume();
         groomScannerView.setResultHandler(this);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.scanner));
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.scanner));
         groomScannerView.startCamera(Integer.valueOf(cameraIDUsed));
     }
 
@@ -90,20 +92,23 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.turn_flash:
-                if(groomScannerView.getFlash()){
+                if (groomScannerView.getFlash()) {
                     groomScannerView.setFlash(false);
-                    if(!groomScannerView.getFlash()) item.setIcon(R.drawable.ic_action_flash);
+                    if (!groomScannerView.getFlash()) item.setIcon(R.drawable.ic_action_flash);
                 } else {
                     groomScannerView.setFlash(true);
-                    if(groomScannerView.getFlash()) item.setIcon(R.drawable.ic_action_flash_light);
+                    if (groomScannerView.getFlash()) item.setIcon(R.drawable.ic_action_flash_light);
                 }
                 break;
             case R.id.swap_camera:
                 changeCamera();
                 groomScannerView.stopCamera();
                 groomScannerView.startCamera(Integer.valueOf(cameraIDUsed));
+                break;
+            case R.id.by_id:
+                launchDialog();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -132,22 +137,46 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
         } catch (NoSuchAlgorithmException ex) {
             Toast.makeText(GroomApplication.getContext(), getString(R.string.wrong_QR_Code), Toast.LENGTH_SHORT).show();
             getActivity().finish();
-        }
-        catch (InvalidKeySpecException ex){
+        } catch (InvalidKeySpecException ex) {
             ex.printStackTrace();
-        }
-        catch(JoseException ex){
+        } catch (JoseException ex) {
             ex.printStackTrace();
         }
     }
 
 
+    private void launchDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.dialog_message)
+                .setTitle(R.string.dialog_title);
 
-    private boolean changeCamera(){
+        builder.setPositiveButton(R.string.scanner, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Dialog f = (Dialog) dialog;
+                EditText ticketID = (EditText) f.findViewById(R.id.dialog_ticket_id);
+
+                Toast.makeText(GroomApplication.getContext(), ticketID.getText().toString(), Toast.LENGTH_SHORT).show();
+                //@TODO
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.dialog_scan, null));
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private boolean changeCamera() {
         int camBackId = Camera.CameraInfo.CAMERA_FACING_BACK;
         int camFrontId = Camera.CameraInfo.CAMERA_FACING_FRONT;
 
-        if(Integer.valueOf(cameraIDUsed) == camBackId){
+        if (Integer.valueOf(cameraIDUsed) == camBackId) {
             cameraIDUsed = String.valueOf(camFrontId);
         } else {
             cameraIDUsed = String.valueOf(camBackId);
@@ -156,13 +185,13 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
         return true;
     }
 
-    private boolean setUpBackCamera(){
+    private boolean setUpBackCamera() {
         int camBackId = Camera.CameraInfo.CAMERA_FACING_BACK;
         cameraIDUsed = String.valueOf(camBackId);
         return true;
     }
 
-    private void launchResult(String jsonResult){
+    private void launchResult(String jsonResult) {
         ResultFragment fragment = ResultFragment.newInstance(jsonResult, false);
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

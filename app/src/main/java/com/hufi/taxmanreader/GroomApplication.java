@@ -13,19 +13,10 @@ import com.hufi.taxmanreader.realm.RealmPlace;
 import com.hufi.taxmanreader.realm.RealmProduct;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 
-import io.realm.Realm;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 import java.security.KeyFactory;
@@ -35,15 +26,25 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.List;
 
+import io.realm.Realm;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class GroomApplication extends Application {
     private static Context sContext;
     public static GroomService service;
 
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
         sContext = getApplicationContext();
 
-        if(TaxmanUtils.userConnected()){
+        if (TaxmanUtils.userConnected()) {
             checkUser();
         }
 
@@ -62,8 +63,7 @@ public class GroomApplication extends Application {
                             .header("Authorization", "JWT " + token)
                             .build();
                     response = chain.proceed(request);
-                }
-                else {
+                } else {
                     response = chain.proceed(original);
                 }
 
@@ -86,7 +86,7 @@ public class GroomApplication extends Application {
         return sContext;
     }
 
-    private void checkUser(){
+    private void checkUser() {
         SharedPreferences prefs = GroomApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
 
         X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(Base64.decode(getString(R.string.yoshimi_key), Base64.DEFAULT));
@@ -104,10 +104,10 @@ public class GroomApplication extends Application {
 
             JwtClaims claims = jwtConsumer.processToClaims(prefs.getString(getString(R.string.yoshimi_token), ""));
 
-        } catch (NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
 
-        } catch(InvalidKeySpecException e){
+        } catch (InvalidKeySpecException e) {
             e.printStackTrace();
         } catch (InvalidJwtException e) {
             prefs.edit().remove(getString(R.string.yoshimi_token)).apply();
@@ -126,8 +126,8 @@ public class GroomApplication extends Application {
                 realm.where(RealmProduct.class).findAll().clear();
                 realm.where(RealmPlace.class).findAll().clear();
 
-                for (Event event: response.body()) {
-                    if(realm.where(RealmEvent.class).equalTo("slug", event.getSlug()).count() == 0) {
+                for (Event event : response.body()) {
+                    if (realm.where(RealmEvent.class).equalTo("slug", event.getSlug()).count() == 0) {
                         RealmPlace place = realm.where(RealmPlace.class).equalTo("id", event.getPlace_id()).findFirst();
                         if (place == null) {
                             place = realm.createObject(RealmPlace.class);
@@ -141,7 +141,7 @@ public class GroomApplication extends Application {
                         realmEvent.setName(event.getName());
                         realmEvent.setPlace(place);
 
-                        for (Product product: event.getProducts()) {
+                        for (Product product : event.getProducts()) {
                             if (realm.where(RealmProduct.class).equalTo("id", product.getId()).count() == 0) {
                                 RealmProduct realmProduct = realm.createObject(RealmProduct.class);
                                 realmProduct.setId(product.getId());

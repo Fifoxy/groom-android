@@ -15,6 +15,11 @@
     <string name="expiration">Token\'s expiry</string>
     <string name="revoked">Ticket cancelled</string>
     <string name="invalid">Invalid ticket</string>
+    <string name="by_id">By id</string>
+
+    <string name="dialog_message">Insert a ticket ID</string>
+    <string name="dialog_title">Manual scan</string>
+    <string name="cancel">Cancel</string>
 
     <string name="isconnected">Log as</string>
     <string name="connected">Connected</string>

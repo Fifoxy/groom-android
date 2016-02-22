@@ -4,6 +4,12 @@
 
 
     <item
+        android:id="@+id/by_id"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/by_id"
+        android:icon="@drawable/ic_action_dialer"/>
+
+    <item
         android:id="@+id/turn_flash"
         app:showAsAction="ifRoom|collapseActionView"
         android:title="@string/flash"
