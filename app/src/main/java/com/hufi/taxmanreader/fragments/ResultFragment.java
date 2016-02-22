@@ -154,43 +154,42 @@ public class ResultFragment extends Fragment {
                 public void onResponse(Call<Order> call, Response<Order> response) {
                     Order order = response.body();
                     if (order != null) {
-                        if(order.getRevoked()){
+                        if (order.getRevoked()) {
                             failure(getString(R.string.revoked));
                         } else {
-                            status.setImageDrawable(GroomApplication.getContext().getResources().getDrawable(R.drawable.ic_done));
-                            status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(GroomApplication.getContext(), R.color.granted)));
-                            statusText.setText(getString(R.string.access_granted));
-                            statusText.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.granted));
+                            setFab(R.drawable.ic_done, R.color.granted, R.string.access_granted);
                         }
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Order> call, Throwable throwable) {
-
+                    Toast.makeText(GroomApplication.getContext(), getString(R.string.order_failed), Toast.LENGTH_SHORT).show();
+                    setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
                 }
             });
         } else {
             Toast.makeText(GroomApplication.getContext(), getString(R.string.verif_failed), Toast.LENGTH_SHORT).show();
-
-            status.setImageDrawable(GroomApplication.getContext().getResources().getDrawable(R.drawable.ic_block));
-            status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(GroomApplication.getContext(), R.color.colorAccent)));
-            statusText.setText(getString(R.string.access_unchecked));
-            statusText.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.colorAccent));
+            setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
         }
     }
 
     private void failure(String msg) {
-        status.setImageDrawable(GroomApplication.getContext().getResources().getDrawable(R.drawable.ic_block));
-        status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(GroomApplication.getContext(), R.color.denied)));
-        statusText.setText(getString(R.string.access_denied));
-        statusText.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.denied));
+        setFab(R.drawable.ic_block, R.color.denied, R.string.access_denied);
 
         revoked.setText(msg);
         revoked.setVisibility(View.VISIBLE);
 
         hideCards();
     }
+
+    private void setFab(int drawable, int color, int resId){
+        status.setImageDrawable(GroomApplication.getContext().getResources().getDrawable(drawable));
+        status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(GroomApplication.getContext(), color)));
+        statusText.setText(getString(resId));
+        statusText.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), color));
+    }
+
 
     private void hideCards() {
         product_information.setVisibility(View.GONE);
