@@ -6,9 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Base64;
-import android.util.Log;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -17,9 +15,8 @@ import android.widget.Toast;
 
 import com.google.common.base.Splitter;
 import com.hufi.taxmanreader.R;
-import com.hufi.taxmanreader.TaxmanReaderApplication;
+import com.hufi.taxmanreader.GroomApplication;
 
-import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
@@ -75,11 +72,11 @@ public class YoshimiActivity extends Activity {
 
             JwtClaims claims = jwtConsumer.processToClaims(params.get("id_token"));
             if (claims.getClaimValue("nonce").equals(this.nonce)) {
-                SharedPreferences prefs = TaxmanReaderApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
+                SharedPreferences prefs = GroomApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString(getString(R.string.yoshimi_token), params.get("id_token")).apply();
                 editor.putString(getString(R.string.access_token), params.get("access_token")).apply();
-                Toast.makeText(TaxmanReaderApplication.getContext(), getString(R.string.valid_sign_in), Toast.LENGTH_LONG).show();
+                Toast.makeText(GroomApplication.getContext(), getString(R.string.valid_sign_in), Toast.LENGTH_LONG).show();
                 finish();
             }
         } catch (NoSuchAlgorithmException e) {

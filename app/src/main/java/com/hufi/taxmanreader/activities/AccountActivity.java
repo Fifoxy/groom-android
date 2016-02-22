@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hufi.taxmanreader.R;
-import com.hufi.taxmanreader.TaxmanReaderApplication;
+import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.async.RequestUserAsyncTask;
 import com.hufi.taxmanreader.listeners.RequestUserListener;
 import com.hufi.taxmanreader.model.User;
@@ -103,10 +103,10 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if (v.getId() == R.id.sign_in_button) {
             if(TaxmanUtils.userConnected()){
-                SharedPreferences prefs = TaxmanReaderApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
+                SharedPreferences prefs = GroomApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
                 prefs.edit().remove(getString(R.string.yoshimi_token)).apply();
                 prefs.edit().remove(getString(R.string.access_token)).apply();
-                Toast.makeText(TaxmanReaderApplication.getContext(), getString(R.string.valid_log_out), Toast.LENGTH_LONG).show();
+                Toast.makeText(GroomApplication.getContext(), getString(R.string.valid_log_out), Toast.LENGTH_LONG).show();
                 this.finish();
             } else {
                 Intent intent = new Intent(this, YoshimiActivity.class);

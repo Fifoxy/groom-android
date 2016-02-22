@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.hufi.taxmanreader.R;
-import com.hufi.taxmanreader.TaxmanReaderApplication;
+import com.hufi.taxmanreader.GroomApplication;
 
 public class TaxmanUtils {
 
     public static boolean userConnected(){
-        SharedPreferences sharedPreferences = TaxmanReaderApplication.getContext().getSharedPreferences(TaxmanReaderApplication.getContext().getString(R.string.yoshimi), Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString(TaxmanReaderApplication.getContext().getString(R.string.yoshimi_token), "");
+        SharedPreferences sharedPreferences = GroomApplication.getContext().getSharedPreferences(GroomApplication.getContext().getString(R.string.yoshimi), Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString(GroomApplication.getContext().getString(R.string.yoshimi_token), "");
 
         return !token.equals("");
     }

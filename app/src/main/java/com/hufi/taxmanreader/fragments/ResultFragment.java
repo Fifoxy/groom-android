@@ -19,21 +19,18 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hufi.taxmanreader.R;
-import com.hufi.taxmanreader.TaxmanReaderApplication;
-import com.hufi.taxmanreader.async.RequestEventAsyncTask;
-import com.hufi.taxmanreader.async.RequestOrderAsyncTask;
-import com.hufi.taxmanreader.async.RequestProductAsyncTask;
-import com.hufi.taxmanreader.listeners.RequestEventListener;
-import com.hufi.taxmanreader.listeners.RequestOrderListener;
-import com.hufi.taxmanreader.listeners.RequestProductListener;
+import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.model.Event;
 import com.hufi.taxmanreader.model.Order;
 import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 import com.victor.loading.rotate.RotateLoading;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class ResultFragment extends Fragment implements RequestProductListener, RequestEventListener, RequestOrderListener, View.OnClickListener {
+public class ResultFragment extends Fragment implements View.OnClickListener {
 
     private View rootView;
     private String result;
@@ -66,8 +63,8 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
     public static ResultFragment newInstance(String result, Boolean isManual) {
         final ResultFragment resultFragment = new ResultFragment();
         final Bundle arguments = new Bundle();
-        arguments.putString(TaxmanReaderApplication.getContext().getString(R.string.scanner_result), result);
-        arguments.putBoolean(TaxmanReaderApplication.getContext().getString(R.string.scanner_manual), isManual);
+        arguments.putString(GroomApplication.getContext().getString(R.string.scanner_result), result);
+        arguments.putBoolean(GroomApplication.getContext().getString(R.string.scanner_manual), isManual);
         resultFragment.setArguments(arguments);
         return resultFragment;
     }
@@ -139,9 +136,9 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
 
     private void success() {
         status.setImageDrawable(getActivity().getDrawable(R.drawable.ic_done));
-        status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.granted)));
+        status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(GroomApplication.getContext(), R.color.granted)));
         statusText.setText(getString(R.string.access_granted));
-        statusText.setTextColor(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.granted));
+        statusText.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.granted));
 
         Gson gson = new Gson();
         Ticket ticket = gson.fromJson(result, Ticket.class);
@@ -150,20 +147,71 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
         firstname.setText(ticket.getFirstname());
         ticket_id.setText("ID: " + ticket.getTicket_id());
 
-        RequestProductAsyncTask requestProductAsyncTask = new RequestProductAsyncTask(this);
-        requestProductAsyncTask.execute(ticket.getPrid());
+        GroomApplication.service.getProduct(Integer.valueOf(ticket.getPrid())).enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                Product product = response.body();
+                if (product != null) {
+                    product_name.setText(product.getName());
+                    product_price.setText("\t\t\t" + product.getPrice() + "€");
+
+                    GroomApplication.service.getEvent(product.getEvent_slug()).enqueue(new Callback<Event>() {
+                        @Override
+                        public void onResponse(Call<Event> call, Response<Event> response) {
+                            Event event = response.body();
+                            if (event != null) {
+                                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(event.getName());
+
+                                event_name.setText(event.getName());
+                                event_location.setText(event.getPlace().getName());
+                            }
+
+                            event_loading.stop();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Event> call, Throwable throwable) {
+
+                        }
+                    });
+                }
+
+                ticket_loading.stop();
+            }
+
+            @Override
+            public void onFailure(Call<Product> call, Throwable throwable) {
+
+            }
+        });
 
         if (TaxmanUtils.userConnected()) {
-            RequestOrderAsyncTask requestOrderAsyncTask = new RequestOrderAsyncTask(this);
-            requestOrderAsyncTask.execute(Integer.valueOf(ticket.getOrid()));
+            GroomApplication.service.getOrder(Integer.valueOf(ticket.getOrid())).enqueue(new Callback<Order>() {
+                @Override
+                public void onResponse(Call<Order> call, Response<Order> response) {
+                    Order order = response.body();
+                    if (order != null) {
+                        if(order.getRevoked()){
+                            failure(getString(R.string.revoked));
+                        } else {
+                            validate_button.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Order> call, Throwable throwable) {
+
+                }
+            });
         }
     }
 
     private void failure(String msg) {
         status.setImageDrawable(getActivity().getDrawable(R.drawable.ic_block));
-        status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.denied)));
+        status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(GroomApplication.getContext(), R.color.denied)));
         statusText.setText(getString(R.string.access_denied));
-        statusText.setTextColor(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.denied));
+        statusText.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.denied));
 
         revoked.setText(msg);
         revoked.setVisibility(View.VISIBLE);
@@ -179,45 +227,9 @@ public class ResultFragment extends Fragment implements RequestProductListener, 
     }
 
     @Override
-    public void onEventReceived(Event event) {
-        if (event != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(event.getName());
-
-            event_name.setText(event.getName());
-            event_location.setText(event.getPlace().getName());
-        }
-
-        event_loading.stop();
-    }
-
-    @Override
-    public void onProductReceived(Product product) {
-        if (product != null) {
-            product_name.setText(product.getName());
-            product_price.setText("\t\t\t" + product.getPrice() + "€");
-
-            RequestEventAsyncTask requestEventAsyncTask = new RequestEventAsyncTask(this);
-            requestEventAsyncTask.execute(product.getEvent_slug());
-        }
-
-        ticket_loading.stop();
-    }
-
-    @Override
-    public void onOrderReceived(Order order) {
-        if (order != null) {
-            if(order.getRevoked()){
-                failure(getString(R.string.revoked));
-            } else {
-                this.validate_button.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    @Override
     public void onClick(View v) {
         if(v.getId() == R.id.validate_button){
-            Toast.makeText(TaxmanReaderApplication.getContext(), "@TODO", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GroomApplication.getContext(), "@TODO", Toast.LENGTH_SHORT).show();
             getActivity().getFragmentManager().popBackStack();
         }
     }

@@ -6,23 +6,29 @@ import android.content.SharedPreferences;
 import android.util.Base64;
 import android.widget.Toast;
 
-import com.google.common.base.Splitter;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.io.IOException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Map;
 
-public class TaxmanReaderApplication extends Application {
+public class GroomApplication extends Application {
     private static Context sContext;
+    public static GroomService service;
 
     public void onCreate(){
         super.onCreate();
@@ -31,6 +37,38 @@ public class TaxmanReaderApplication extends Application {
         if(TaxmanUtils.userConnected()){
             checkUser();
         }
+
+        SharedPreferences sharedPreferences = GroomApplication.getContext().getSharedPreferences(GroomApplication.getContext().getString(R.string.yoshimi), Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString(GroomApplication.getContext().getString(R.string.yoshimi_token), "");
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request original = chain.request();
+                Response response;
+
+                if (!token.isEmpty()) {
+                    Request request = original.newBuilder()
+                            .header("Authorization", "JWT " + token)
+                            .build();
+                    response = chain.proceed(request);
+                }
+                else {
+                    response = chain.proceed(original);
+                }
+
+                return response;
+            }
+        });
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://tickets.gala-isen.fr/api/")
+                .client(httpClient.build())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        this.service = retrofit.create(GroomService.class);
     }
 
     public static Context getContext() {
@@ -38,7 +76,7 @@ public class TaxmanReaderApplication extends Application {
     }
 
     private void checkUser(){
-        SharedPreferences prefs = TaxmanReaderApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
+        SharedPreferences prefs = GroomApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
 
         X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(Base64.decode(getString(R.string.yoshimi_key), Base64.DEFAULT));
         KeyFactory keyFactory = null;
@@ -63,7 +101,7 @@ public class TaxmanReaderApplication extends Application {
         } catch (InvalidJwtException e) {
             prefs.edit().remove(getString(R.string.yoshimi_token)).apply();
             prefs.edit().remove(getString(R.string.access_token)).apply();
-            Toast.makeText(TaxmanReaderApplication.getContext(), getString(R.string.expiration), Toast.LENGTH_LONG).show();
+            Toast.makeText(GroomApplication.getContext(), getString(R.string.expiration), Toast.LENGTH_LONG).show();
         }
     }
 }

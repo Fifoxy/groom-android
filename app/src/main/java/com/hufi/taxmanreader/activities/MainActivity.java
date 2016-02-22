@@ -10,18 +10,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.hufi.taxmanreader.R;
-import com.hufi.taxmanreader.TaxmanReaderApplication;
-import com.hufi.taxmanreader.async.RequestOrderAsyncTask;
+import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.fragments.ResultFragment;
-import com.hufi.taxmanreader.listeners.RequestOrderListener;
-import com.hufi.taxmanreader.model.Order;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 
 import java.security.*;
@@ -100,9 +96,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         snackbar.addIcon(R.drawable.ic_action_user, 200);
                 View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.colorAccent));
+        snackbarView.setBackgroundColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.colorAccent));
         TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
-        textView.setTextColor(ContextCompat.getColor(TaxmanReaderApplication.getContext(), R.color.whiteText));
+        textView.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.whiteText));
         snackbar.show();
     }
 

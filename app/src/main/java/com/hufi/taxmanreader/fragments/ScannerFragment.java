@@ -9,7 +9,6 @@ import android.hardware.camera2.*;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +18,7 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.hufi.taxmanreader.R;
-import com.hufi.taxmanreader.TaxmanReaderApplication;
+import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.utils.GroomScannerView;
 
 import org.jose4j.jws.JsonWebSignature;
@@ -131,7 +130,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
         } catch (InvalidJwtException ex) {
             launchResult("");
         } catch (NoSuchAlgorithmException ex) {
-            Toast.makeText(TaxmanReaderApplication.getContext(), getString(R.string.wrong_QR_Code), Toast.LENGTH_SHORT).show();
+            Toast.makeText(GroomApplication.getContext(), getString(R.string.wrong_QR_Code), Toast.LENGTH_SHORT).show();
             getActivity().finish();
         }
         catch (InvalidKeySpecException ex){
