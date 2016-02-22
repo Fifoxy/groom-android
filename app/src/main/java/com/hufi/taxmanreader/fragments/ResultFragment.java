@@ -24,8 +24,11 @@ import com.hufi.taxmanreader.model.Event;
 import com.hufi.taxmanreader.model.Order;
 import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.model.Ticket;
+import com.hufi.taxmanreader.realm.RealmEvent;
+import com.hufi.taxmanreader.realm.RealmProduct;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 import com.victor.loading.rotate.RotateLoading;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -127,8 +130,8 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         assert result != null;
         if (!result.isEmpty()) {
             success();
-            event_loading.start();
-            ticket_loading.start();
+            /*event_loading.start();
+            ticket_loading.start();*/
         } else {
             failure(getString(R.string.invalid));
         }
@@ -147,43 +150,24 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         firstname.setText(ticket.getFirstname());
         ticket_id.setText("ID: " + ticket.getTicket_id());
 
-        GroomApplication.service.getProduct(Integer.valueOf(ticket.getPrid())).enqueue(new Callback<Product>() {
-            @Override
-            public void onResponse(Call<Product> call, Response<Product> response) {
-                Product product = response.body();
-                if (product != null) {
-                    product_name.setText(product.getName());
-                    product_price.setText("\t\t\t" + product.getPrice() + "€");
+        RealmProduct product = Realm.getInstance(GroomApplication.getContext()).where(RealmProduct.class)
+                .equalTo("id", Integer.valueOf(ticket.getPrid()))
+                .findFirst();
 
-                    GroomApplication.service.getEvent(product.getEvent_slug()).enqueue(new Callback<Event>() {
-                        @Override
-                        public void onResponse(Call<Event> call, Response<Event> response) {
-                            Event event = response.body();
-                            if (event != null) {
-                                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(event.getName());
+        if (product != null) {
+            product_name.setText(product.getName());
+            product_price.setText("\t\t\t" + product.getPrice() + "€");
 
-                                event_name.setText(event.getName());
-                                event_location.setText(event.getPlace().getName());
-                            }
-
-                            event_loading.stop();
-                        }
-
-                        @Override
-                        public void onFailure(Call<Event> call, Throwable throwable) {
-
-                        }
-                    });
-                }
-
-                ticket_loading.stop();
+            if (product.getEvent() != null) {
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(product.getEvent().getName());
+                event_name.setText(product.getEvent().getName());
+                event_location.setText(product.getEvent().getPlace().getName());
             }
 
-            @Override
-            public void onFailure(Call<Product> call, Throwable throwable) {
+            // event_loading.stop();
+        }
 
-            }
-        });
+        // ticket_loading.stop();
 
         if (TaxmanUtils.userConnected()) {
             GroomApplication.service.getOrder(Integer.valueOf(ticket.getOrid())).enqueue(new Callback<Order>() {
