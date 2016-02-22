@@ -13,18 +13,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.GroomApplication;
-import com.hufi.taxmanreader.model.Event;
 import com.hufi.taxmanreader.model.Order;
-import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.model.Ticket;
-import com.hufi.taxmanreader.realm.RealmEvent;
 import com.hufi.taxmanreader.realm.RealmProduct;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 import com.victor.loading.rotate.RotateLoading;
@@ -33,8 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ResultFragment extends Fragment implements View.OnClickListener {
-
+public class ResultFragment extends Fragment {
     private View rootView;
     private String result;
 
@@ -57,11 +51,6 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
     private TextView product_label;
     private CardView event_information;
     private TextView event_label;
-
-    private RotateLoading event_loading;
-    private RotateLoading ticket_loading;
-
-    private Button validate_button;
 
     public static ResultFragment newInstance(String result, Boolean isManual) {
         final ResultFragment resultFragment = new ResultFragment();
@@ -96,12 +85,6 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         event_label = (TextView) this.rootView.findViewById(R.id.event_label);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.scanner_result));
-
-        event_loading = (RotateLoading) this.rootView.findViewById(R.id.progress_event);
-        ticket_loading = (RotateLoading) this.rootView.findViewById(R.id.progress_ticket);
-
-        validate_button = (Button) this.rootView.findViewById(R.id.validate_button);
-        validate_button.setOnClickListener(this);
 
         if(!manual) {
             load();
@@ -138,7 +121,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
     }
 
     private void success() {
-        status.setImageDrawable(getActivity().getDrawable(R.drawable.ic_done));
+        status.setImageDrawable(GroomApplication.getContext().getResources().getDrawable(R.drawable.ic_done));
         status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(GroomApplication.getContext(), R.color.granted)));
         statusText.setText(getString(R.string.access_granted));
         statusText.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.granted));
@@ -177,8 +160,6 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
                     if (order != null) {
                         if(order.getRevoked()){
                             failure(getString(R.string.revoked));
-                        } else {
-                            validate_button.setVisibility(View.VISIBLE);
                         }
                     }
                 }
@@ -192,7 +173,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
     }
 
     private void failure(String msg) {
-        status.setImageDrawable(getActivity().getDrawable(R.drawable.ic_block));
+        status.setImageDrawable(GroomApplication.getContext().getResources().getDrawable(R.drawable.ic_block));
         status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(GroomApplication.getContext(), R.color.denied)));
         statusText.setText(getString(R.string.access_denied));
         statusText.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.denied));
@@ -208,13 +189,5 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         event_information.setVisibility(View.GONE);
         product_label.setVisibility(View.GONE);
         event_label.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.validate_button){
-            Toast.makeText(GroomApplication.getContext(), "@TODO", Toast.LENGTH_SHORT).show();
-            getActivity().getFragmentManager().popBackStack();
-        }
     }
 }

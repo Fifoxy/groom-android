@@ -15,8 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidadvance.topsnackbar.TSnackbar;
-import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.GroomApplication;
+import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.fragments.ResultFragment;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 
@@ -92,10 +92,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             msg = getString(R.string.notconnected);
         }
 
-        TSnackbar snackbar = TSnackbar.make(findViewById(R.id.main_content), msg, TSnackbar.LENGTH_LONG);
+        TSnackbar snackbar = TSnackbar.make(findViewById(R.id.main_content), msg, TSnackbar.LENGTH_SHORT);
 
-        snackbar.addIcon(R.drawable.ic_action_user, 200);
-                View snackbarView = snackbar.getView();
+        View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.colorAccent));
         TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
         textView.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.whiteText));
