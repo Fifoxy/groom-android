@@ -17,7 +17,7 @@
     <string name="invalid">Ticket invalide</string>
     <string name="by_id">Via id</string>
 
-    <string name="dialog_message">Insérer un numéro de billet</string>
+    <string name="dialog_message">Insérer un numéro de billet :</string>
     <string name="dialog_title">Scan manuel</string>
     <string name="cancel">Annuler</string>
 

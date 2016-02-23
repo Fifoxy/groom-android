@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -147,8 +148,8 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
 
     private void launchDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.dialog_message)
-                .setTitle(R.string.dialog_title);
+      /*  builder.setMessage(R.string.dialog_message)
+                .setTitle(R.string.dialog_title);*/
 
         builder.setPositiveButton(R.string.scanner, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -170,6 +171,13 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
 
         AlertDialog dialog = builder.create();
         dialog.show();
+
+        Button negative = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+
+
+        negative.setTextColor(getResources().getColor(R.color.colorAccent));
+        positive.setTextColor(getResources().getColor(R.color.colorAccent));
     }
 
     private boolean changeCamera() {

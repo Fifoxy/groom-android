@@ -17,7 +17,7 @@
     <string name="invalid">Invalid ticket</string>
     <string name="by_id">By id</string>
 
-    <string name="dialog_message">Insert a ticket ID</string>
+    <string name="dialog_message">Insert a ticket ID:</string>
     <string name="dialog_title">Manual scan</string>
     <string name="cancel">Cancel</string>
 
@@ -73,5 +73,7 @@
     <string name="product_name_label">Product</string>
     <string name="product_price_label">Price</string>
     <string name="event_place">Place</string>
+
+    <string name="separator">_____________</string>
 
 </resources>
