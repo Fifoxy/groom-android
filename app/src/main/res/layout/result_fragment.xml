@@ -15,6 +15,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
 
+    <com.victor.loading.rotate.RotateLoading
+        android:id="@+id/progress_check"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:loading_width="3dp"
+        app:loading_color="#EF6C00"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,15 +92,6 @@
         android:layout_margin="5dp"
         card_view:cardElevation="7dp"
         card_view:cardUseCompatPadding="true">
-
-        <com.victor.loading.rotate.RotateLoading
-            android:id="@+id/progress_ticket"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            app:loading_width="3dp"
-            app:loading_color="#EF6C00"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -162,15 +162,6 @@
         android:layout_margin="5dp"
         card_view:cardElevation="7dp"
         card_view:cardUseCompatPadding="true">
-
-        <com.victor.loading.rotate.RotateLoading
-            android:id="@+id/progress_event"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            app:loading_width="3dp"
-            app:loading_color="@color/colorAccent"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"/>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -23,6 +23,7 @@ import com.hufi.taxmanreader.model.Order;
 import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.realm.RealmProduct;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
+import com.victor.loading.rotate.RotateLoading;
 
 import io.realm.Realm;
 import retrofit2.Call;
@@ -52,6 +53,8 @@ public class ResultFragment extends Fragment {
     private TextView product_label;
     private CardView event_information;
     private TextView event_label;
+
+    private RotateLoading progress_check;
 
     public static ResultFragment newInstance(String result, Boolean isManual) {
         final ResultFragment resultFragment = new ResultFragment();
@@ -85,6 +88,8 @@ public class ResultFragment extends Fragment {
         product_label = (TextView) this.rootView.findViewById(R.id.ticket_label);
         event_label = (TextView) this.rootView.findViewById(R.id.event_label);
 
+        progress_check = (RotateLoading) this.rootView.findViewById(R.id.progress_check);
+
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.scanner_result));
 
         if (!manual) {
@@ -110,6 +115,7 @@ public class ResultFragment extends Fragment {
 
     private void load() {
         result = getArguments().getString(getString(R.string.scanner_result));
+        progress_check.start();
 
         assert result != null;
         if (!result.isEmpty()) {
@@ -147,6 +153,7 @@ public class ResultFragment extends Fragment {
             GroomApplication.service.getOrder(Integer.valueOf(ticket.getOrid())).enqueue(new Callback<Order>() {
                 @Override
                 public void onResponse(Call<Order> call, Response<Order> response) {
+                    stopProgress();
                     Order order = response.body();
                     if (order != null) {
                         if (order.getRevoked()) {
@@ -159,17 +166,20 @@ public class ResultFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<Order> call, Throwable throwable) {
+                    stopProgress();
                     Toast.makeText(GroomApplication.getContext(), getString(R.string.order_failed), Toast.LENGTH_SHORT).show();
                     setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
                 }
             });
         } else {
+            stopProgress();
             Toast.makeText(GroomApplication.getContext(), getString(R.string.verif_failed), Toast.LENGTH_SHORT).show();
             setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
         }
     }
 
     private void failure(String msg) {
+        stopProgress();
         setFab(R.drawable.ic_block, R.color.denied, R.string.access_denied);
 
         revoked.setText(msg);
@@ -191,5 +201,10 @@ public class ResultFragment extends Fragment {
         event_information.setVisibility(View.GONE);
         product_label.setVisibility(View.GONE);
         event_label.setVisibility(View.GONE);
+    }
+
+    private void stopProgress() {
+        progress_check.stop();
+        progress_check.setVisibility(View.GONE);
     }
 }
