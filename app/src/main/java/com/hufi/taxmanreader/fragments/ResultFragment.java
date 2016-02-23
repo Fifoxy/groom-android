@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +24,7 @@ import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.Order;
 import com.hufi.taxmanreader.model.QRTicket;
+import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.realm.RealmProduct;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 import com.victor.loading.rotate.RotateLoading;
@@ -129,7 +131,7 @@ public class ResultFragment extends Fragment {
 
     private void success() {
         Gson gson = new Gson();
-        QRTicket ticket = gson.fromJson(result, QRTicket.class);
+        final QRTicket ticket = gson.fromJson(result, QRTicket.class);
 
         lastname.setText(ticket.getLastname());
         firstname.setText(ticket.getFirstname());
@@ -152,41 +154,43 @@ public class ResultFragment extends Fragment {
 
 
         if (TaxmanUtils.userConnected()) {
-            GroomApplication.service.getOrder(Integer.valueOf(ticket.getOrid())).enqueue(new Callback<Order>() {
+            GroomApplication.service.ticketUsage(Integer.valueOf(ticket.getTicket_id())).enqueue(new Callback<Ticket>() {
                 @Override
-                public void onResponse(Call<Order> call, Response<Order> response) {
-                    stopProgress(true);
-                    Order order = response.body();
-                    if (order != null) {
-                        if (order.getRevoked()) {
-                            failure(getString(R.string.revoked));
-                        } else {
-                            setFab(R.drawable.ic_done, R.color.granted, R.string.access_granted);
-                            //Requête POST @TODO
+                public void onResponse(Call<Ticket> call, Response<Ticket> response) {
+                    stopProgress();
 
-
-                            //if OK -> getActivity().getFragmentManager().beginTransaction().remove(this).commit();
-                            // IF NOT -> failure(getString(R.string.already_checked));
-                        }
+                    Ticket ticket = response.body();
+                    
+                    Log.d("StatusCode", String.valueOf(response.code()));
+                    if(ticket.getError() == null){
+                        setFab(R.drawable.ic_done, R.color.granted, R.string.access_granted);
+                    } else if(ticket.getError().equals("ORDER_REVOKED")){
+                        failure(getString(R.string.revoked));
+                        beep();
+                    } else if (ticket.getError().equals("TICKET_USED")){
+                        failure(getString(R.string.already_used));
+                        beep();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<Order> call, Throwable throwable) {
-                    stopProgress(false);
+                public void onFailure(Call<Ticket> call, Throwable t) {
+                    stopProgress();
+                    beep();
                     Toast.makeText(GroomApplication.getContext(), getString(R.string.order_failed), Toast.LENGTH_SHORT).show();
                     setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
                 }
             });
         } else {
-            stopProgress(false);
+            stopProgress();
+            beep();
             Toast.makeText(GroomApplication.getContext(), getString(R.string.verif_failed), Toast.LENGTH_SHORT).show();
             setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
         }
     }
 
     private void failure(String msg) {
-        stopProgress(false);
+        stopProgress();
         setFab(R.drawable.ic_block, R.color.denied, R.string.access_denied);
 
         revoked.setText(msg);
@@ -210,13 +214,13 @@ public class ResultFragment extends Fragment {
         event_label.setVisibility(View.GONE);
     }
 
-    private void stopProgress(boolean success) {
+    private void stopProgress() {
         if(progress_check.isStart()) progress_check.stop();
         progress_check.setVisibility(View.GONE);
+    }
 
-        if(success){
-            ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-            toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
-        }
+    private void beep(){
+        ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+        toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
     }
 }

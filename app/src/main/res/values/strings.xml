@@ -66,7 +66,7 @@
     <string name="ticket_id">ID</string>
     <string name="validate">Validate</string>
     <string name="order_failed">Order request failed</string>
-    <string name="already_checked">Ticket already checked</string>
+    <string name="already_used">Ticket already used</string>
 
     <string name="ticket_info">Ticket information</string>
     <string name="event_info">Event information</string>
