@@ -3,7 +3,7 @@ package com.hufi.taxmanreader.model;
 import java.util.List;
 
 public class Order {
-    private List<Ticket> tickets;
+    private List<QRTicket> tickets;
     private Product product;
     private Person person;
 
@@ -19,7 +19,7 @@ public class Order {
     private Integer person_id;
 
 
-    public List<Ticket> getTickets() {
+    public List<QRTicket> getTickets() {
         return tickets;
     }
 

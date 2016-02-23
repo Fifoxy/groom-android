@@ -3,8 +3,10 @@ package com.hufi.taxmanreader;
 import com.hufi.taxmanreader.model.Event;
 import com.hufi.taxmanreader.model.Order;
 import com.hufi.taxmanreader.model.Product;
+import com.hufi.taxmanreader.model.Ticket;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 import java.util.List;
@@ -21,4 +23,13 @@ public interface GroomService {
 
     @GET("orders/{order_id}")
     Call<Order> getOrder(@Path("order_id") Integer order_id);
+
+    @GET("tickets")
+    Call<List<Ticket>> getAllTickets();
+
+    @GET("tickets/{ticket_id}")
+    Call<Ticket> getTicket(@Path("ticket_id") Integer ticket_id);
+
+    @POST("tickets/{ticket_id}/usage")
+    Call<Ticket> ticketUsage(@Path("ticket_id") Integer ticket_id);
 }

@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.Order;
-import com.hufi.taxmanreader.model.Ticket;
+import com.hufi.taxmanreader.model.QRTicket;
 import com.hufi.taxmanreader.realm.RealmProduct;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 import com.victor.loading.rotate.RotateLoading;
@@ -127,7 +127,7 @@ public class ResultFragment extends Fragment {
 
     private void success() {
         Gson gson = new Gson();
-        Ticket ticket = gson.fromJson(result, Ticket.class);
+        QRTicket ticket = gson.fromJson(result, QRTicket.class);
 
         lastname.setText(ticket.getLastname());
         firstname.setText(ticket.getFirstname());
