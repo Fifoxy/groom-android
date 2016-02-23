@@ -2,6 +2,8 @@ package com.hufi.taxmanreader.fragments;
 
 import android.app.Fragment;
 import android.content.res.ColorStateList;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -131,7 +133,7 @@ public class ResultFragment extends Fragment {
 
         lastname.setText(ticket.getLastname());
         firstname.setText(ticket.getFirstname());
-        ticket_id.setText("ID: " + ticket.getTicket_id());
+        ticket_id.setText(String.format("ID: %s", ticket.getTicket_id()));
 
         RealmProduct product = Realm.getInstance(GroomApplication.getContext()).where(RealmProduct.class)
                 .equalTo("id", Integer.valueOf(ticket.getPrid()))
@@ -153,33 +155,38 @@ public class ResultFragment extends Fragment {
             GroomApplication.service.getOrder(Integer.valueOf(ticket.getOrid())).enqueue(new Callback<Order>() {
                 @Override
                 public void onResponse(Call<Order> call, Response<Order> response) {
-                    stopProgress();
+                    stopProgress(true);
                     Order order = response.body();
                     if (order != null) {
                         if (order.getRevoked()) {
                             failure(getString(R.string.revoked));
                         } else {
                             setFab(R.drawable.ic_done, R.color.granted, R.string.access_granted);
+                            //Requête POST @TODO
+
+
+                            //if OK -> getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+                            // IF NOT -> failure(getString(R.string.already_checked));
                         }
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Order> call, Throwable throwable) {
-                    stopProgress();
+                    stopProgress(false);
                     Toast.makeText(GroomApplication.getContext(), getString(R.string.order_failed), Toast.LENGTH_SHORT).show();
                     setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
                 }
             });
         } else {
-            stopProgress();
+            stopProgress(false);
             Toast.makeText(GroomApplication.getContext(), getString(R.string.verif_failed), Toast.LENGTH_SHORT).show();
             setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
         }
     }
 
     private void failure(String msg) {
-        stopProgress();
+        stopProgress(false);
         setFab(R.drawable.ic_block, R.color.denied, R.string.access_denied);
 
         revoked.setText(msg);
@@ -203,8 +210,13 @@ public class ResultFragment extends Fragment {
         event_label.setVisibility(View.GONE);
     }
 
-    private void stopProgress() {
-        progress_check.stop();
+    private void stopProgress(boolean success) {
+        if(progress_check.isStart()) progress_check.stop();
         progress_check.setVisibility(View.GONE);
+
+        if(success){
+            ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+            toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
+        }
     }
 }
