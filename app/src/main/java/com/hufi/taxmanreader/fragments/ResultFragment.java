@@ -38,6 +38,8 @@ public class ResultFragment extends Fragment {
     private View rootView;
     private String result;
 
+    private Ticket manual_ticket;
+
     private boolean manual;
 
     private FloatingActionButton status;
@@ -60,10 +62,14 @@ public class ResultFragment extends Fragment {
 
     private RotateLoading progress_check;
 
-    public static ResultFragment newInstance(String result, Boolean isManual) {
+    public static ResultFragment newInstance(String result, Ticket ticket, Boolean isManual) {
         final ResultFragment resultFragment = new ResultFragment();
         final Bundle arguments = new Bundle();
-        arguments.putString(GroomApplication.getContext().getString(R.string.scanner_result), result);
+        if(!isManual){
+            arguments.putString(GroomApplication.getContext().getString(R.string.scanner_result), result);
+        } else {
+            arguments.putParcelable(GroomApplication.getContext().getString(R.string.manual_result), ticket);
+        }
         arguments.putBoolean(GroomApplication.getContext().getString(R.string.scanner_manual), isManual);
         resultFragment.setArguments(arguments);
         return resultFragment;
@@ -96,10 +102,12 @@ public class ResultFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.scanner_result));
 
+        manual = getArguments().getBoolean(GroomApplication.getContext().getString(R.string.scanner_manual));
+
         if (!manual) {
             load();
         } else {
-            //@TODO
+            loadManual();
         }
 
         return this.rootView;
@@ -129,6 +137,18 @@ public class ResultFragment extends Fragment {
         }
     }
 
+    private void loadManual(){
+        manual_ticket = getArguments().getParcelable(GroomApplication.getContext().getString(R.string.manual_result));
+        progress_check.start();
+
+        lastname.setText(manual_ticket.getPerson().getLast_name());
+        firstname.setText(manual_ticket.getPerson().getFirst_name());
+        ticket_id.setText(String.format("ID: %s", manual_ticket.getId()));
+
+        setProduct(manual_ticket.getProduct_id());
+        checkUsage(manual_ticket.getId());
+    }
+
     private void success() {
         Gson gson = new Gson();
         final QRTicket ticket = gson.fromJson(result, QRTicket.class);
@@ -137,8 +157,51 @@ public class ResultFragment extends Fragment {
         firstname.setText(ticket.getFirstname());
         ticket_id.setText(String.format("ID: %s", ticket.getTicket_id()));
 
+        setProduct(Integer.valueOf(ticket.getPrid()));
+
+        if (TaxmanUtils.userConnected()) {
+            checkUsage(Integer.valueOf(ticket.getTicket_id()));
+        } else {
+            stopProgress();
+            beep();
+            Toast.makeText(GroomApplication.getContext(), getString(R.string.verif_failed), Toast.LENGTH_SHORT).show();
+            setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
+        }
+    }
+
+    private void checkUsage(int ticketID){
+        GroomApplication.service.ticketUsage(ticketID).enqueue(new Callback<Ticket>() {
+            @Override
+            public void onResponse(Call<Ticket> call, Response<Ticket> response) {
+                stopProgress();
+
+                Ticket ticket = response.body();
+
+                Log.d("StatusCode", String.valueOf(response.code()));
+                if (ticket.getError() == null) {
+                    setFab(R.drawable.ic_done, R.color.granted, R.string.access_granted);
+                } else if (ticket.getError().equals("ORDER_REVOKED")) {
+                    failure(getString(R.string.revoked));
+                    beep();
+                } else if (ticket.getError().equals("TICKET_USED")) {
+                    failure(getString(R.string.already_used));
+                    beep();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Ticket> call, Throwable t) {
+                stopProgress();
+                beep();
+                Toast.makeText(GroomApplication.getContext(), getString(R.string.order_failed), Toast.LENGTH_SHORT).show();
+                setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
+            }
+        });
+    }
+
+    private void setProduct(int prid){
         RealmProduct product = Realm.getInstance(GroomApplication.getContext()).where(RealmProduct.class)
-                .equalTo("id", Integer.valueOf(ticket.getPrid()))
+                .equalTo("id", prid)
                 .findFirst();
 
         if (product != null) {
@@ -150,42 +213,6 @@ public class ResultFragment extends Fragment {
                 event_name.setText(product.getEvent().getName());
                 event_location.setText(product.getEvent().getPlace().getName());
             }
-        }
-
-
-        if (TaxmanUtils.userConnected()) {
-            GroomApplication.service.ticketUsage(Integer.valueOf(ticket.getTicket_id())).enqueue(new Callback<Ticket>() {
-                @Override
-                public void onResponse(Call<Ticket> call, Response<Ticket> response) {
-                    stopProgress();
-
-                    Ticket ticket = response.body();
-                    
-                    Log.d("StatusCode", String.valueOf(response.code()));
-                    if(ticket.getError() == null){
-                        setFab(R.drawable.ic_done, R.color.granted, R.string.access_granted);
-                    } else if(ticket.getError().equals("ORDER_REVOKED")){
-                        failure(getString(R.string.revoked));
-                        beep();
-                    } else if (ticket.getError().equals("TICKET_USED")){
-                        failure(getString(R.string.already_used));
-                        beep();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Ticket> call, Throwable t) {
-                    stopProgress();
-                    beep();
-                    Toast.makeText(GroomApplication.getContext(), getString(R.string.order_failed), Toast.LENGTH_SHORT).show();
-                    setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
-                }
-            });
-        } else {
-            stopProgress();
-            beep();
-            Toast.makeText(GroomApplication.getContext(), getString(R.string.verif_failed), Toast.LENGTH_SHORT).show();
-            setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
         }
     }
 

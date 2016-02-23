@@ -10,6 +10,7 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +22,11 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.hufi.taxmanreader.GroomApplication;
+import com.hufi.taxmanreader.GroomService;
 import com.hufi.taxmanreader.R;
+import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.utils.GroomScannerView;
+import com.hufi.taxmanreader.utils.TaxmanUtils;
 
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.JwtClaims;
@@ -40,6 +44,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ScannerFragment extends Fragment implements ZXingScannerView.ResultHandler {
     //  private ZXingScannerView mScannerView;
@@ -148,16 +155,28 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
 
     private void launchDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-      /*  builder.setMessage(R.string.dialog_message)
-                .setTitle(R.string.dialog_title);*/
 
         builder.setPositiveButton(R.string.scanner, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Dialog f = (Dialog) dialog;
                 EditText ticketID = (EditText) f.findViewById(R.id.dialog_ticket_id);
 
-                Toast.makeText(GroomApplication.getContext(), ticketID.getText().toString(), Toast.LENGTH_SHORT).show();
-                //@TODO
+                if(TaxmanUtils.userConnected()){
+                    GroomApplication.service.getTicket(Integer.valueOf(ticketID.getText().toString())).enqueue(new Callback<Ticket>() {
+                        @Override
+                        public void onResponse(Call<Ticket> call, Response<Ticket> response) {
+                            launchManual(response.body());
+                        }
+
+                        @Override
+                        public void onFailure(Call<Ticket> call, Throwable t) {
+                            Toast.makeText(GroomApplication.getContext(), getString(R.string.service_failure), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(GroomApplication.getContext(), getString(R.string.notconnected), Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -200,7 +219,16 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     }
 
     private void launchResult(String jsonResult) {
-        ResultFragment fragment = ResultFragment.newInstance(jsonResult, false);
+        ResultFragment fragment = ResultFragment.newInstance(jsonResult, null, false);
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.scanner_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void launchManual(Ticket ticket){
+        ResultFragment fragment = ResultFragment.newInstance(null, ticket, true);
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.scanner_container, fragment);

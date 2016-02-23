@@ -28,6 +28,8 @@
     <string name="sync_success">Synchronisation réussie</string>
     <string name="sync_failed">Synchronisation échouée</string>
 
+    <string name="service_failure">Callback onFailure du service</string>
+
     <string name="verif_failed">Vérification impossible (non connecté)</string>
 
     <!-- PUBLIC KEY -->
@@ -58,6 +60,7 @@
     <!-- RESULT -->
     <string name="scanner_result">Résultat</string>
     <string name="scanner_manual">Manuel</string>
+    <string name="manual_result">Résultat manuel</string>
     <string name="access_granted">Accès autorisé</string>
     <string name="access_unchecked">Accès non vérifié</string>
     <string name="access_denied">Accès refusé</string>
