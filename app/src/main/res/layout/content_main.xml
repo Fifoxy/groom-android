@@ -39,12 +39,24 @@
             android:layout_marginBottom="15dp"
             android:layout_gravity="center" />
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:text="@string/sync_status"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:textColor="#ffffff"/>
+
+
         <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 card_view:cardBackgroundColor="#212121"
                 android:id="@+id/product_information"
-                android:layout_margin="5dp"
+
                 card_view:cardElevation="7dp"
                 card_view:cardUseCompatPadding="true">
 
@@ -53,14 +65,6 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="Synchronization status"
-                    android:layout_marginBottom="5dp"
-                    android:textSize="16dp"
-                    android:textColor="#ffffff"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -70,7 +74,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="Last synchronization: "
+                        android:layout_marginRight="2dp"
+                        android:text="@string/sync_last"
                         android:textColor="#ffffff"/>
 
                     <TextView
@@ -88,7 +93,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="Events: "
+                        android:layout_marginRight="2dp"
+                        android:text="@string/events"
                         android:textColor="#ffffff"/>
 
                     <TextView
@@ -106,7 +112,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="Products: "
+                        android:text="@string/products"
+                        android:layout_marginRight="2dp"
                         android:textColor="#ffffff"/>
 
                     <TextView

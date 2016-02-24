@@ -7,36 +7,34 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
-import android.webkit.ValueCallback;
+import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.CookieManager;
 import android.widget.Toast;
 
 import com.google.common.base.Splitter;
-import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.GroomApplication;
-
+import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.User;
+
 import org.jose4j.jwt.JwtClaims;
-import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Map;
 import java.util.UUID;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class YoshimiActivity extends Activity {
     private String nonce;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +50,6 @@ public class YoshimiActivity extends Activity {
         webView.setWebViewClient(new YoshimiClient());
         CookieManager.getInstance().removeAllCookie();
         webView.loadUrl(authorizeUri);
-        /*removeAllCookies(new ValueCallback<Boolean>() {
-            @Override
-            public void onReceiveValue(Boolean value) {
-                webView.loadUrl(authorizeUri);
-            }
-        });*/
     }
 
     public void onYoshimiReturn(Uri uri) {
@@ -82,10 +74,9 @@ public class YoshimiActivity extends Activity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (!response.body().isAdmin()) {
-                            Toast.makeText(GroomApplication.getContext(), "Authentication failed, user has no admin privileges", Toast.LENGTH_LONG).show();
+                            Toast.makeText(GroomApplication.getContext(), getString(R.string.no_admin), Toast.LENGTH_LONG).show();
                             finish();
-                        }
-                        else {
+                        } else {
                             SharedPreferences prefs = GroomApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putString(getString(R.string.yoshimi_token), params.get("id_token")).apply();
@@ -97,13 +88,13 @@ public class YoshimiActivity extends Activity {
 
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
-                        Toast.makeText(GroomApplication.getContext(), "Network failure on login", Toast.LENGTH_LONG).show();
+                        Toast.makeText(GroomApplication.getContext(), getString(R.string.net_failure), Toast.LENGTH_LONG).show();
                         finish();
                     }
                 });
             }
         } catch (Exception e) {
-            Toast.makeText(GroomApplication.getContext(), "Authentication check failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(GroomApplication.getContext(), getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
             finish();
         }
     }

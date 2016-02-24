@@ -10,19 +10,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
-import com.hufi.taxmanreader.model.Order;
 import com.hufi.taxmanreader.model.QRTicket;
 import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.realm.RealmProduct;
@@ -47,7 +44,7 @@ public class ResultFragment extends Fragment {
     private TextView lastname;
     private TextView firstname;
     private TextView ticket_id;
-    private TextView revoked;
+    private TextView status_message;
 
     private TextView product_name;
     private TextView product_price;
@@ -84,7 +81,7 @@ public class ResultFragment extends Fragment {
         lastname = (TextView) this.rootView.findViewById(R.id.lastname);
         firstname = (TextView) this.rootView.findViewById(R.id.firstname);
         ticket_id = (TextView) this.rootView.findViewById(R.id.ticket_id);
-        revoked = (TextView) this.rootView.findViewById(R.id.revoked);
+        status_message = (TextView) this.rootView.findViewById(R.id.status_message);
 
         product_name = (TextView) this.rootView.findViewById(R.id.product_name);
         product_price = (TextView) this.rootView.findViewById(R.id.product_price);
@@ -159,7 +156,7 @@ public class ResultFragment extends Fragment {
 
         setProduct(Integer.valueOf(ticket.getPrid()));
 
-        rootView.findViewById(R.id.revoked).setVisibility(View.GONE);
+        rootView.findViewById(R.id.status_message).setVisibility(View.GONE);
 
         if (TaxmanUtils.userConnected()) {
             checkUsage(Integer.valueOf(ticket.getTicket_id()));
@@ -167,8 +164,8 @@ public class ResultFragment extends Fragment {
             stopProgress();
             beep();
 
-            rootView.findViewById(R.id.revoked).setVisibility(View.VISIBLE);
-            ((TextView) rootView.findViewById(R.id.revoked)).setText(getString(R.string.verif_failed));
+            rootView.findViewById(R.id.status_message).setVisibility(View.VISIBLE);
+            ((TextView) rootView.findViewById(R.id.status_message)).setText(getString(R.string.verif_failed));
             setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
         }
     }
@@ -181,8 +178,8 @@ public class ResultFragment extends Fragment {
 
                 if (response.code() != 200) {
                     beep();
-                    rootView.findViewById(R.id.revoked).setVisibility(View.VISIBLE);
-                    ((TextView) rootView.findViewById(R.id.revoked)).setText("Server error: status code " + response.code() + "\\nCouldn't check ticket reuse");
+                    rootView.findViewById(R.id.status_message).setVisibility(View.VISIBLE);
+                    ((TextView) rootView.findViewById(R.id.status_message)).setText(getString(R.string.server_error_code) + response.code() + "\\n" + getString(R.string.couldnt_check));
                     setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
                 }
                 else {
@@ -190,10 +187,10 @@ public class ResultFragment extends Fragment {
 
                     if (ticket.getError() == null) {
                         setFab(R.drawable.ic_done, R.color.granted, R.string.access_granted);
-                    } else if (ticket.getError().equals("ORDER_REVOKED")) {
+                    } else if (ticket.getError().equals(getString(R.string.order_revoked))) {
                         failure(getString(R.string.revoked));
                         beep();
-                    } else if (ticket.getError().equals("TICKET_USED")) {
+                    } else if (ticket.getError().equals(getString(R.string.ticket_used))) {
                         failure(getString(R.string.already_used));
                         beep();
                     }
@@ -204,8 +201,8 @@ public class ResultFragment extends Fragment {
             public void onFailure(Call<Ticket> call, Throwable t) {
                 stopProgress();
                 beep();
-                rootView.findViewById(R.id.revoked).setVisibility(View.VISIBLE);
-                ((TextView) rootView.findViewById(R.id.revoked)).setText("Couldn't reach server, please check network availability");
+                rootView.findViewById(R.id.status_message).setVisibility(View.VISIBLE);
+                ((TextView) rootView.findViewById(R.id.status_message)).setText(getString(R.string.reach_server));
                 setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
             }
         });
@@ -232,8 +229,8 @@ public class ResultFragment extends Fragment {
         stopProgress();
         setFab(R.drawable.ic_block, R.color.denied, R.string.access_denied);
 
-        revoked.setText(msg);
-        revoked.setVisibility(View.VISIBLE);
+        status_message.setText(msg);
+        status_message.setVisibility(View.VISIBLE);
 
         hideCards();
     }

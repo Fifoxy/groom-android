@@ -103,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showSyncStats() {
-        final SharedPreferences sharedPreferences = GroomApplication.getContext().getSharedPreferences("GROOM_SYNC", Context.MODE_PRIVATE);
-        String lastSync = sharedPreferences.getString("last_sync", "never");
+        final SharedPreferences sharedPreferences = GroomApplication.getContext().getSharedPreferences(getString(R.string.groom_sync), Context.MODE_PRIVATE);
+        String lastSync = sharedPreferences.getString(getString(R.string.last_sync), "never");
         String eventsNumber = String.valueOf(Realm.getInstance(this).where(RealmEvent.class).findAll().size());
         String productsNumber = String.valueOf(Realm.getInstance(this).where(RealmProduct.class).findAll().size());
 
@@ -152,11 +152,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 realm.commitTransaction();
                 Toast.makeText(GroomApplication.getContext(), getString(R.string.sync_success), Toast.LENGTH_LONG).show();
-                final SharedPreferences sharedPreferences = GroomApplication.getContext().getSharedPreferences("GROOM_SYNC", Context.MODE_PRIVATE);
+                final SharedPreferences sharedPreferences = GroomApplication.getContext().getSharedPreferences(getString(R.string.groom_sync), Context.MODE_PRIVATE);
                 final SharedPreferences.Editor editor = sharedPreferences.edit();
                 SimpleDateFormat format = new SimpleDateFormat("M/d/yyyy kk:mm:ss");
-                editor.putString("last_sync", format.format(Calendar.getInstance().getTime()));
-                editor.commit();
+                editor.putString(getString(R.string.last_sync), format.format(Calendar.getInstance().getTime()));
+                editor.apply();
                 showSyncStats();
             }
 

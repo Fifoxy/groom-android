@@ -80,4 +80,23 @@
 
     <string name="separator">_____________</string>
 
+    <string name="not_found">Ticket not found</string>
+    <string name="server_error">Unexpected status code from server</string>
+    <string name="server_error_code">Server error: status code </string>
+    <string name="couldnt_check">Couldn\'t check ticket reuse</string>
+    <string name="reach_server">Couldn\'t reach server, please check network availability</string>
+    <string name="last_sync">Last sync</string>
+    <string name="groom_sync">GROOM_SYNC</string>
+
+    <string name="auth_failed">Authentication check failed</string>
+    <string name="net_failure">Network failure on login</string>
+    <string name="no_admin">Authentication failed, user has no admin privileges</string>
+
+    <string name="order_revoked">ORDER_REVOKED</string>
+    <string name="ticket_used">TICKET_USED</string>
+
+    <string name="sync_status">Synchronization status</string>
+    <string name="sync_last">Last synchronization:</string>
+    <string name="events">Events:</string>
+    <string name="products">Products:</string>
 </resources>

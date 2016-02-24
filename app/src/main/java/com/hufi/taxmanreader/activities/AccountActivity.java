@@ -74,7 +74,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                     User user = response.body();
 
                     if(user != null){
-                        status.setText(user.getFirst_name() + " " + user.getLast_name());
+                        status.setText(getString(R.string.isconnected) + " " + user.getLast_name() + " " + user.getFirst_name());
                         infos.setText(user.getEmail());
                         signButton.setText(getString(R.string.log_out));
 

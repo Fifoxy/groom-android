@@ -78,4 +78,23 @@
     <string name="product_price_label">Prix</string>
     <string name="event_place">Lieu</string>
 
+    <string name="not_found">Billet non trouvé</string>
+    <string name="server_error">Code inattendu venant du serveur</string>
+    <string name="server_error_code">Erreur serveur : status code </string>
+    <string name="couldnt_check">Vérification de l\'utilisation du billet échouée</string>
+    <string name="reach_server">Accès au serveur impossible, merci de vérifier votre connexion réseau</string>
+    <string name="last_sync">LAST_SYNC</string>
+    <string name="groom_sync">GROOM_SYNC</string>
+
+    <string name="auth_failed">Vérification de l\'authentification échouée</string>
+    <string name="net_failure">Erreur de réseau lors de la connexion</string>
+    <string name="no_admin">Authentification échouée, l\'utilisateur n\'a pas les privilèges administrateur</string>
+
+    <string name="order_revoked">ORDER_REVOKED</string>
+    <string name="ticket_used">TICKET_USED</string>
+
+    <string name="sync_status">Statut de synchronisation</string>
+    <string name="sync_last">Dernière synchronisation:</string>
+    <string name="events">Evènements:</string>
+    <string name="products">Produits:</string>
 </resources>

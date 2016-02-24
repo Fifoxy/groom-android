@@ -10,7 +10,6 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.hufi.taxmanreader.GroomApplication;
-import com.hufi.taxmanreader.GroomService;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.utils.GroomScannerView;
@@ -30,15 +28,11 @@ import com.hufi.taxmanreader.utils.TaxmanUtils;
 
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.JwtClaims;
-import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
-import org.jose4j.lang.JoseException;
 
 import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +43,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ScannerFragment extends Fragment implements ZXingScannerView.ResultHandler {
-    //  private ZXingScannerView mScannerView;
-
     private GroomScannerView groomScannerView;
 
     private String cameraIDUsed;
@@ -59,12 +51,9 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         groomScannerView = new GroomScannerView(getActivity());
         groomScannerView.setAutoFocus(true);
-       /* mScannerView = new ZXingScannerView(getActivity());
-        mScannerView.setAutoFocus(true);*/
 
         setupFormats();
         if (!setUpBackCamera()) cameraIDUsed = "0";
-        //return mScannerView;
         return groomScannerView;
     }
 
@@ -154,19 +143,17 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
                 Dialog f = (Dialog) dialog;
                 EditText ticketID = (EditText) f.findViewById(R.id.dialog_ticket_id);
 
-                if(TaxmanUtils.userConnected()){
+                if (TaxmanUtils.userConnected()) {
                     GroomApplication.service.getTicket(Integer.valueOf(ticketID.getText().toString())).enqueue(new Callback<Ticket>() {
                         @Override
                         public void onResponse(Call<Ticket> call, Response<Ticket> response) {
                             if (response.code() == 200) {
                                 launchManual(response.body());
-                            }
-                            else {
+                            } else {
                                 if (response.code() == 404) {
-                                    Toast.makeText(GroomApplication.getContext(), "Ticket not found", Toast.LENGTH_SHORT).show();
-                                }
-                                else {
-                                    Toast.makeText(GroomApplication.getContext(), "Unexpected status code from server", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(GroomApplication.getContext(), getString(R.string.not_found), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(GroomApplication.getContext(), getString(R.string.server_error), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -230,7 +217,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
         transaction.commit();
     }
 
-    private void launchManual(Ticket ticket){
+    private void launchManual(Ticket ticket) {
         ResultFragment fragment = ResultFragment.newInstance(null, ticket, true);
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
