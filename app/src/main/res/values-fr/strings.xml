@@ -78,6 +78,8 @@
     <string name="product_price_label">Prix</string>
     <string name="event_place">Lieu</string>
 
+    <string name="separator">_____________</string>
+
     <string name="not_found">Billet non trouvé</string>
     <string name="server_error">Code inattendu venant du serveur</string>
     <string name="server_error_code">Erreur serveur : status code </string>
