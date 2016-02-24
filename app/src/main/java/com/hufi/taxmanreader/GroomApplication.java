@@ -48,8 +48,7 @@ public class GroomApplication extends Application {
             checkUser();
         }
 
-        SharedPreferences sharedPreferences = GroomApplication.getContext().getSharedPreferences(GroomApplication.getContext().getString(R.string.yoshimi), Context.MODE_PRIVATE);
-        final String token = sharedPreferences.getString(GroomApplication.getContext().getString(R.string.yoshimi_token), "");
+        final SharedPreferences sharedPreferences = GroomApplication.getContext().getSharedPreferences(GroomApplication.getContext().getString(R.string.yoshimi), Context.MODE_PRIVATE);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(new Interceptor() {
@@ -57,6 +56,8 @@ public class GroomApplication extends Application {
             public Response intercept(Chain chain) throws IOException {
                 Request original = chain.request();
                 Response response;
+
+                final String token = sharedPreferences.getString(GroomApplication.getContext().getString(R.string.yoshimi_token), "");
 
                 if (!token.isEmpty()) {
                     Request request = original.newBuilder()
