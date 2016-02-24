@@ -140,15 +140,8 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
 
             JwtClaims jwtClaims = jwtConsumer.processToClaims(result.getText());
             launchResult(jwtClaims.getRawJson());
-        } catch (InvalidJwtException ex) {
+        } catch (Exception ex) {
             launchResult("");
-        } catch (NoSuchAlgorithmException ex) {
-            Toast.makeText(GroomApplication.getContext(), getString(R.string.wrong_QR_Code), Toast.LENGTH_SHORT).show();
-            getActivity().finish();
-        } catch (InvalidKeySpecException ex) {
-            ex.printStackTrace();
-        } catch (JoseException ex) {
-            ex.printStackTrace();
         }
     }
 
