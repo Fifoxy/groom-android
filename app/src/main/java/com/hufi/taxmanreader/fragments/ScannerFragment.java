@@ -200,7 +200,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     private void launchSearch(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setPositiveButton(R.string.scanner, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.search, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Dialog f = (Dialog) dialog;
                 EditText lastname = (EditText) f.findViewById(R.id.dialog_lastname);
@@ -209,6 +209,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
                 FragmentManager manager = getFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.scanner_container, fragment);
+                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });

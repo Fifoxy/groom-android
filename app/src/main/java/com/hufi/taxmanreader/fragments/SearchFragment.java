@@ -106,5 +106,9 @@ public class SearchFragment extends Fragment implements ClickListener{
             transaction.addToBackStack(null);
             transaction.commit();
         }
+
+        getFragmentManager().beginTransaction().remove(this).commit();
     }
+
+
 }

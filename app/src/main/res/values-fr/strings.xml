@@ -103,4 +103,5 @@
     <string name="products">Produits:</string>
     <string name="never_sync">Jamais</string>
     <string name="search_message">Insérer un nom</string>
+    <string name="search">Recherche</string>
 </resources>
