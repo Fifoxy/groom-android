@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showSyncStats() {
         final SharedPreferences sharedPreferences = GroomApplication.getContext().getSharedPreferences(getString(R.string.groom_sync), Context.MODE_PRIVATE);
-        String lastSync = sharedPreferences.getString(getString(R.string.last_sync), "never");
+        String lastSync = sharedPreferences.getString(getString(R.string.last_sync), getString(R.string.never_sync));
         String eventsNumber = String.valueOf(Realm.getInstance(this).where(RealmEvent.class).findAll().size());
         String productsNumber = String.valueOf(Realm.getInstance(this).where(RealmProduct.class).findAll().size());
 

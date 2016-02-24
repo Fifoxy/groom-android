@@ -99,4 +99,5 @@
     <string name="sync_last">Last synchronization:</string>
     <string name="events">Events:</string>
     <string name="products">Products:</string>
+    <string name="never_sync">Never</string>
 </resources>
