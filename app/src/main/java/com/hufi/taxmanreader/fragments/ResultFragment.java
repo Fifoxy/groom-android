@@ -159,12 +159,16 @@ public class ResultFragment extends Fragment {
 
         setProduct(Integer.valueOf(ticket.getPrid()));
 
+        rootView.findViewById(R.id.revoked).setVisibility(View.GONE);
+
         if (TaxmanUtils.userConnected()) {
             checkUsage(Integer.valueOf(ticket.getTicket_id()));
         } else {
             stopProgress();
             beep();
-            Toast.makeText(GroomApplication.getContext(), getString(R.string.verif_failed), Toast.LENGTH_SHORT).show();
+
+            rootView.findViewById(R.id.revoked).setVisibility(View.VISIBLE);
+            ((TextView) rootView.findViewById(R.id.revoked)).setText(getString(R.string.verif_failed));
             setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
         }
     }
@@ -175,17 +179,24 @@ public class ResultFragment extends Fragment {
             public void onResponse(Call<Ticket> call, Response<Ticket> response) {
                 stopProgress();
 
-                Ticket ticket = response.body();
+                if (response.code() != 200) {
+                    beep();
+                    rootView.findViewById(R.id.revoked).setVisibility(View.VISIBLE);
+                    ((TextView) rootView.findViewById(R.id.revoked)).setText("Server error: status code " + response.code() + "\\nCouldn't check ticket reuse");
+                    setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
+                }
+                else {
+                    Ticket ticket = response.body();
 
-                Log.d("StatusCode", String.valueOf(response.code()));
-                if (ticket.getError() == null) {
-                    setFab(R.drawable.ic_done, R.color.granted, R.string.access_granted);
-                } else if (ticket.getError().equals("ORDER_REVOKED")) {
-                    failure(getString(R.string.revoked));
-                    beep();
-                } else if (ticket.getError().equals("TICKET_USED")) {
-                    failure(getString(R.string.already_used));
-                    beep();
+                    if (ticket.getError() == null) {
+                        setFab(R.drawable.ic_done, R.color.granted, R.string.access_granted);
+                    } else if (ticket.getError().equals("ORDER_REVOKED")) {
+                        failure(getString(R.string.revoked));
+                        beep();
+                    } else if (ticket.getError().equals("TICKET_USED")) {
+                        failure(getString(R.string.already_used));
+                        beep();
+                    }
                 }
             }
 
@@ -193,7 +204,8 @@ public class ResultFragment extends Fragment {
             public void onFailure(Call<Ticket> call, Throwable t) {
                 stopProgress();
                 beep();
-                Toast.makeText(GroomApplication.getContext(), getString(R.string.order_failed), Toast.LENGTH_SHORT).show();
+                rootView.findViewById(R.id.revoked).setVisibility(View.VISIBLE);
+                ((TextView) rootView.findViewById(R.id.revoked)).setText("Couldn't reach server, please check network availability");
                 setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
             }
         });
