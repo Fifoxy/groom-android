@@ -14,14 +14,15 @@ import android.widget.Toast;
 
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.GroomApplication;
-import com.hufi.taxmanreader.async.RequestUserAsyncTask;
-import com.hufi.taxmanreader.listeners.RequestUserListener;
 import com.hufi.taxmanreader.model.User;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 import com.victor.loading.rotate.RotateLoading;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
-public class AccountActivity extends AppCompatActivity implements View.OnClickListener, RequestUserListener {
+public class AccountActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button signButton;
     private Toolbar toolbar;
@@ -64,8 +65,33 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             this.progress_account_information.stop();
             this.progress_account_information.setVisibility(View.GONE);
         } else {
-            RequestUserAsyncTask requestUserAsyncTask = new RequestUserAsyncTask(this);
-            requestUserAsyncTask.execute();
+            SharedPreferences sharedPreferences = GroomApplication.getContext().getSharedPreferences(GroomApplication.getContext().getString(R.string.yoshimi), Context.MODE_PRIVATE);
+            String token = sharedPreferences.getString(GroomApplication.getContext().getString(R.string.yoshimi_token), "");
+
+            GroomApplication.service.getUser("JWT " + token).enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    User user = response.body();
+
+                    if(user != null){
+                        status.setText(user.getFirst_name() + " " + user.getLast_name());
+                        infos.setText(user.getEmail());
+                        signButton.setText(getString(R.string.log_out));
+
+                        status.setVisibility(View.VISIBLE);
+                        infos.setVisibility(View.VISIBLE);
+                        signButton.setVisibility(View.VISIBLE);
+                    }
+
+                    progress_account_information.stop();
+                    progress_account_information.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+
+                }
+            });
         }
     }
 
@@ -113,23 +139,5 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
             }
         }
-    }
-
-    @Override
-    public void onUserReceived(User user) {
-        if(user != null){
-            String status = getString(R.string.isconnected) + " " + user.getPreferred_username();
-            String infos = user.getFamily_name() + " " + user.getGiven_name();
-            this.status.setText(status);
-            this.infos.setText(infos);
-            this.signButton.setText(getString(R.string.log_out));
-
-            this.status.setVisibility(View.VISIBLE);
-            this.infos.setVisibility(View.VISIBLE);
-            this.signButton.setVisibility(View.VISIBLE);
-        }
-
-        this.progress_account_information.stop();
-        this.progress_account_information.setVisibility(View.GONE);
     }
 }

@@ -17,10 +17,14 @@ import com.google.common.base.Splitter;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.GroomApplication;
 
+import com.hufi.taxmanreader.model.User;
 import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -74,19 +78,33 @@ public class YoshimiActivity extends Activity {
 
             JwtClaims claims = jwtConsumer.processToClaims(params.get("id_token"));
             if (claims.getClaimValue("nonce").equals(this.nonce)) {
-                SharedPreferences prefs = GroomApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(getString(R.string.yoshimi_token), params.get("id_token")).apply();
-                editor.putString(getString(R.string.access_token), params.get("access_token")).apply();
-                Toast.makeText(GroomApplication.getContext(), getString(R.string.valid_sign_in), Toast.LENGTH_LONG).show();
-                finish();
+                GroomApplication.service.getUser("JWT " + params.get("id_token")).enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (!response.body().isAdmin()) {
+                            Toast.makeText(GroomApplication.getContext(), "Authentication failed, user has no admin privileges", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                        else {
+                            SharedPreferences prefs = GroomApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString(getString(R.string.yoshimi_token), params.get("id_token")).apply();
+                            editor.putString(getString(R.string.access_token), params.get("access_token")).apply();
+                            Toast.makeText(GroomApplication.getContext(), getString(R.string.valid_sign_in), Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Toast.makeText(GroomApplication.getContext(), "Network failure on login", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                });
             }
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (InvalidJwtException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Toast.makeText(GroomApplication.getContext(), "Authentication check failed", Toast.LENGTH_LONG).show();
+            finish();
         }
     }
 
