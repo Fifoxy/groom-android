@@ -16,6 +16,8 @@
     <string name="revoked">Ticket cancelled</string>
     <string name="invalid">Invalid ticket</string>
     <string name="by_id">By id</string>
+    <string name="by_name">By name</string>
+    <string name="search_result">Search result</string>
 
     <string name="dialog_message">Insert a ticket ID:</string>
     <string name="dialog_title">Manual scan</string>
@@ -100,4 +102,6 @@
     <string name="events">Events:</string>
     <string name="products">Products:</string>
     <string name="never_sync">Never</string>
+    <string name="search_lastname">Search lastname</string>
+    <string name="search_message">Insert a lastname</string>
 </resources>

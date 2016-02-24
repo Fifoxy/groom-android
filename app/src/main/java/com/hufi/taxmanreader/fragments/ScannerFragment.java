@@ -105,7 +105,12 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
                 groomScannerView.startCamera(Integer.valueOf(cameraIDUsed));
                 break;
             case R.id.by_id:
+                groomScannerView.stopCamera();
                 launchDialog();
+                break;
+            case R.id.by_name:
+                groomScannerView.stopCamera();
+                launchSearch();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -160,10 +165,12 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
 
                         @Override
                         public void onFailure(Call<Ticket> call, Throwable t) {
+                            groomScannerView.startCamera(Integer.valueOf(cameraIDUsed));
                             Toast.makeText(GroomApplication.getContext(), getString(R.string.service_failure), Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
+                    groomScannerView.startCamera(Integer.valueOf(cameraIDUsed));
                     Toast.makeText(GroomApplication.getContext(), getString(R.string.notconnected), Toast.LENGTH_SHORT).show();
                 }
 
@@ -171,6 +178,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                groomScannerView.startCamera(Integer.valueOf(cameraIDUsed));
                 dialog.cancel();
             }
         });
@@ -185,6 +193,41 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
         Button positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
 
 
+        negative.setTextColor(getResources().getColor(R.color.colorAccent));
+        positive.setTextColor(getResources().getColor(R.color.colorAccent));
+    }
+
+    private void launchSearch(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setPositiveButton(R.string.scanner, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Dialog f = (Dialog) dialog;
+                EditText lastname = (EditText) f.findViewById(R.id.dialog_lastname);
+
+                SearchFragment fragment = SearchFragment.newInstance(lastname.getText().toString());
+                FragmentManager manager = getFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.scanner_container, fragment);
+                transaction.commit();
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                groomScannerView.startCamera(Integer.valueOf(cameraIDUsed));
+                dialog.cancel();
+            }
+        });
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.search_dialog, null));
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        Button negative = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         negative.setTextColor(getResources().getColor(R.color.colorAccent));
         positive.setTextColor(getResources().getColor(R.color.colorAccent));
     }

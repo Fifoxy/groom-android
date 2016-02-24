@@ -6,6 +6,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import java.util.List;
 
@@ -34,4 +35,7 @@ public interface GroomService {
 
     @POST("tickets/{ticket_id}/usage")
     Call<Ticket> ticketUsage(@Path("ticket_id") Integer ticket_id);
+
+    @GET("tickets")
+    Call<List<Ticket>> findTicketByLastName(@Query("person.last_name") String lastName);
 }
