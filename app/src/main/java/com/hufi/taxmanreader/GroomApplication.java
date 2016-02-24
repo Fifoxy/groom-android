@@ -24,6 +24,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import io.realm.Realm;
@@ -79,8 +81,6 @@ public class GroomApplication extends Application {
                 .build();
 
         this.service = retrofit.create(GroomService.class);
-
-        fetchEvents();
     }
 
     public static Context getContext() {
@@ -115,53 +115,5 @@ public class GroomApplication extends Application {
             prefs.edit().remove(getString(R.string.access_token)).apply();
             Toast.makeText(GroomApplication.getContext(), getString(R.string.expiration), Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void fetchEvents() {
-        service.getAllEvents().enqueue(new Callback<List<Event>>() {
-            @Override
-            public void onResponse(Call<List<Event>> call, retrofit2.Response<List<Event>> response) {
-                Realm realm = Realm.getInstance(getContext());
-                realm.beginTransaction();
-                realm.where(RealmEvent.class).findAll().clear();
-                realm.where(RealmProduct.class).findAll().clear();
-                realm.where(RealmPlace.class).findAll().clear();
-
-                for (Event event : response.body()) {
-                    if (realm.where(RealmEvent.class).equalTo("slug", event.getSlug()).count() == 0) {
-                        RealmPlace place = realm.where(RealmPlace.class).equalTo("id", event.getPlace_id()).findFirst();
-                        if (place == null) {
-                            place = realm.createObject(RealmPlace.class);
-                            place.setId(event.getPlace().getId());
-                            place.setName(event.getPlace().getName());
-                            place.setAddress(event.getPlace().getAddress());
-                        }
-
-                        RealmEvent realmEvent = realm.createObject(RealmEvent.class);
-                        realmEvent.setSlug(event.getSlug());
-                        realmEvent.setName(event.getName());
-                        realmEvent.setPlace(place);
-
-                        for (Product product : event.getProducts()) {
-                            if (realm.where(RealmProduct.class).equalTo("id", product.getId()).count() == 0) {
-                                RealmProduct realmProduct = realm.createObject(RealmProduct.class);
-                                realmProduct.setId(product.getId());
-                                realmProduct.setName(product.getName());
-                                realmProduct.setPrice(product.getPrice());
-                                realmProduct.setEvent(realmEvent);
-                            }
-                        }
-                    }
-                }
-
-                realm.commitTransaction();
-                Toast.makeText(GroomApplication.getContext(), getString(R.string.sync_success), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<List<Event>> call, Throwable throwable) {
-                Toast.makeText(GroomApplication.getContext(), getString(R.string.sync_failed), Toast.LENGTH_LONG).show();
-            }
-        });
     }
 }
