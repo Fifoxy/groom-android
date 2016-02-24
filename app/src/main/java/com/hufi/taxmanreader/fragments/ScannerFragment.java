@@ -158,7 +158,17 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
                     GroomApplication.service.getTicket(Integer.valueOf(ticketID.getText().toString())).enqueue(new Callback<Ticket>() {
                         @Override
                         public void onResponse(Call<Ticket> call, Response<Ticket> response) {
-                            launchManual(response.body());
+                            if (response.code() == 200) {
+                                launchManual(response.body());
+                            }
+                            else {
+                                if (response.code() == 404) {
+                                    Toast.makeText(GroomApplication.getContext(), "Ticket not found", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(GroomApplication.getContext(), "Unexpected status code from server", Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         }
 
                         @Override
