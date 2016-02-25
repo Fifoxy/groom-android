@@ -78,6 +78,8 @@
     <string name="product_name_label">Produit</string>
     <string name="product_price_label">Prix</string>
     <string name="event_place">Lieu</string>
+    <string name="events_title">Events</string>
+    <string name="event_address">Adresse</string>
 
     <string name="separator">_____________</string>
 

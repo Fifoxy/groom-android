@@ -62,11 +62,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (id) {
             case R.id.user_settings:
-                Intent intent = new Intent(this, AccountActivity.class);
-                startActivity(intent);
+                Intent accountIntent = new Intent(this, AccountActivity.class);
+                startActivity(accountIntent);
                 break;
             case R.id.action_settings:
                 return true;
+            case R.id.events:
+                Intent eventIntent = new Intent(this, EventsActivity.class);
+                startActivity(eventIntent);
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }

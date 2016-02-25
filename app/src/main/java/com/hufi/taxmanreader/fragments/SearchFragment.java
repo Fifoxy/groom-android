@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.Ticket;
+import com.hufi.taxmanreader.realm.RealmEvent;
 import com.hufi.taxmanreader.utils.listeners.ClickListener;
 import com.hufi.taxmanreader.utils.ui.SearchAdapter;
 
@@ -104,7 +105,7 @@ public class SearchFragment extends Fragment implements ClickListener {
     }
 
     @Override
-    public void onitemClick(Ticket ticket) {
+    public void onSearchItemClick(Ticket ticket) {
         if (ticket != null) {
             ResultFragment fragment = ResultFragment.newInstance(null, ticket, true);
             FragmentManager manager = getFragmentManager();
@@ -113,6 +114,11 @@ public class SearchFragment extends Fragment implements ClickListener {
             transaction.addToBackStack(null);
             transaction.commit();
         }
+    }
+
+    @Override
+    public void onEventItemClick(RealmEvent event) {
+
     }
 
 

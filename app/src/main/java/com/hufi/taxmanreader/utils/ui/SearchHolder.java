@@ -38,6 +38,6 @@ public class SearchHolder extends RecyclerView.ViewHolder implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        this.listener.onitemClick(this.ticket);
+        this.listener.onSearchItemClick(this.ticket);
     }
 }

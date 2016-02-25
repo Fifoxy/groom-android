@@ -74,6 +74,8 @@
 
     <string name="ticket_info">Ticket information</string>
     <string name="event_info">Event information</string>
+    <string name="events_title">Events</string>
+    <string name="event_address">Address</string>
 
     <string name="product_name_label">Product</string>
     <string name="product_price_label">Price</string>
