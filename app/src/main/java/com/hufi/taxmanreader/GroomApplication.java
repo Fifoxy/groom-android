@@ -6,12 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Base64;
 import android.widget.Toast;
 
-import com.hufi.taxmanreader.model.Event;
-import com.hufi.taxmanreader.model.Product;
-import com.hufi.taxmanreader.realm.RealmEvent;
-import com.hufi.taxmanreader.realm.RealmPlace;
-import com.hufi.taxmanreader.realm.RealmProduct;
-import com.hufi.taxmanreader.utils.TaxmanUtils;
+import com.hufi.taxmanreader.utils.GroomUtils;
 
 import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.consumer.InvalidJwtException;
@@ -24,17 +19,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
 
-import io.realm.Realm;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -46,7 +35,7 @@ public class GroomApplication extends Application {
         super.onCreate();
         sContext = getApplicationContext();
 
-        if (TaxmanUtils.userConnected()) {
+        if (GroomUtils.userConnected()) {
             checkUser();
         }
 

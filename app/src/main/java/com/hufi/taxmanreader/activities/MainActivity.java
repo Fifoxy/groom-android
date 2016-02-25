@@ -21,7 +21,7 @@ import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.realm.RealmEvent;
 import com.hufi.taxmanreader.realm.RealmPlace;
 import com.hufi.taxmanreader.realm.RealmProduct;
-import com.hufi.taxmanreader.utils.TaxmanUtils;
+import com.hufi.taxmanreader.utils.GroomUtils;
 
 import java.security.Security;
 import java.text.SimpleDateFormat;
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void notifyUser() {
         String msg = "";
-        if (TaxmanUtils.userConnected()) {
+        if (GroomUtils.userConnected()) {
             msg = getString(R.string.connected);
         } else {
             msg = getString(R.string.notconnected);

@@ -26,7 +26,7 @@ import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.utils.GroomScannerView;
-import com.hufi.taxmanreader.utils.TaxmanUtils;
+import com.hufi.taxmanreader.utils.GroomUtils;
 
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.JwtClaims;
@@ -156,7 +156,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
                 Dialog f = (Dialog) dialog;
                 EditText ticketID = (EditText) f.findViewById(R.id.dialog_ticket_id);
 
-                if (TaxmanUtils.userConnected()) {
+                if (GroomUtils.userConnected()) {
                     GroomApplication.service.getTicket(Integer.valueOf(ticketID.getText().toString())).enqueue(new Callback<Ticket>() {
                         @Override
                         public void onResponse(Call<Ticket> call, Response<Ticket> response) {
@@ -210,7 +210,7 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
 
         builder.setPositiveButton(R.string.search, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                if(TaxmanUtils.userConnected()){
+                if(GroomUtils.userConnected()){
                     Dialog f = (Dialog) dialog;
                     EditText lastname = (EditText) f.findViewById(R.id.dialog_lastname);
 

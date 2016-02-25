@@ -23,7 +23,7 @@ import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.QRTicket;
 import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.realm.RealmProduct;
-import com.hufi.taxmanreader.utils.TaxmanUtils;
+import com.hufi.taxmanreader.utils.GroomUtils;
 import com.victor.loading.rotate.RotateLoading;
 
 import io.realm.Realm;
@@ -158,7 +158,7 @@ public class ResultFragment extends Fragment {
 
         rootView.findViewById(R.id.status_message).setVisibility(View.GONE);
 
-        if (TaxmanUtils.userConnected()) {
+        if (GroomUtils.userConnected()) {
             checkUsage(Integer.valueOf(ticket.getTicket_id()));
         } else {
             stopProgress();

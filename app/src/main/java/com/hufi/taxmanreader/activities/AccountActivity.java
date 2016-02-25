@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.User;
-import com.hufi.taxmanreader.utils.TaxmanUtils;
+import com.hufi.taxmanreader.utils.GroomUtils;
 import com.victor.loading.rotate.RotateLoading;
 
 import retrofit2.Call;
@@ -58,7 +58,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
         this.progress_account_information.start();
 
-        if (!TaxmanUtils.userConnected()) {
+        if (!GroomUtils.userConnected()) {
             this.status.setText(getString(R.string.notconnected));
             this.signButton.setText(getString(R.string.sign_in));
             this.signButton.setVisibility(View.VISIBLE);
@@ -129,7 +129,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.sign_in_button) {
-            if (TaxmanUtils.userConnected()) {
+            if (GroomUtils.userConnected()) {
                 SharedPreferences prefs = GroomApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
                 prefs.edit().remove(getString(R.string.yoshimi_token)).apply();
                 prefs.edit().remove(getString(R.string.access_token)).apply();

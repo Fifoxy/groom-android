@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.GroomApplication;
 
-public class TaxmanUtils {
+public class GroomUtils {
 
     public static boolean userConnected(){
         SharedPreferences sharedPreferences = GroomApplication.getContext().getSharedPreferences(GroomApplication.getContext().getString(R.string.yoshimi), Context.MODE_PRIVATE);
