@@ -68,7 +68,6 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_scanner, menu);
     }
 
     @Override

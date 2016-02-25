@@ -6,7 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
@@ -14,6 +16,7 @@ import com.hufi.taxmanreader.model.Event;
 import com.hufi.taxmanreader.model.Place;
 import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.utils.ui.ProductsAdapter;
+import com.victor.loading.rotate.RotateLoading;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +36,8 @@ public class EventActivity extends AppCompatActivity {
     private RecyclerView list_products;
     private ProductsAdapter productsAdapter;
 
+    private RotateLoading progress_products;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +48,7 @@ public class EventActivity extends AppCompatActivity {
 
         place = (TextView) findViewById(R.id.a_event_place);
         address = (TextView) findViewById(R.id.a_event_address);
+        progress_products = (RotateLoading) findViewById(R.id.progress_products);
         list_products = (RecyclerView) findViewById(R.id.products_view);
 
         list_products.setHasFixedSize(true);
@@ -78,6 +84,8 @@ public class EventActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        progress_products.setVisibility(View.VISIBLE);
+        progress_products.start();
         Place place_infos = event.getPlace();
         place.setText(place_infos.getName());
         address.setText(place_infos.getAddress());
@@ -89,11 +97,15 @@ public class EventActivity extends AppCompatActivity {
                 Collections.sort(products);
                 productsAdapter = new ProductsAdapter(products);
                 list_products.setAdapter(productsAdapter);
+                progress_products.stop();
+                progress_products.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
-
+                Toast.makeText(GroomApplication.getContext(), getString(R.string.service_failure), Toast.LENGTH_SHORT).show();
+                progress_products.stop();
+                progress_products.setVisibility(View.GONE);
             }
         });
     }
