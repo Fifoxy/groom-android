@@ -12,11 +12,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.GroomApplication;
+import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.User;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
 import com.victor.loading.rotate.RotateLoading;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,7 +50,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         this.progress_account_information = (RotateLoading) findViewById(R.id.progress_account_information);
     }
 
-    private void initialize(){
+    private void initialize() {
         this.infos.setVisibility(View.GONE);
         this.status.setVisibility(View.GONE);
         this.signButton.setVisibility(View.GONE);
@@ -57,7 +58,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
         this.progress_account_information.start();
 
-        if(!TaxmanUtils.userConnected()){
+        if (!TaxmanUtils.userConnected()) {
             this.status.setText(getString(R.string.notconnected));
             this.signButton.setText(getString(R.string.sign_in));
             this.signButton.setVisibility(View.VISIBLE);
@@ -73,7 +74,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                 public void onResponse(Call<User> call, Response<User> response) {
                     User user = response.body();
 
-                    if(user != null){
+                    if (user != null) {
                         status.setText(getString(R.string.isconnected) + " " + user.getFirst_name() + " " + user.getLast_name());
                         infos.setText(user.getEmail());
                         signButton.setText(getString(R.string.log_out));
@@ -128,7 +129,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.sign_in_button) {
-            if(TaxmanUtils.userConnected()){
+            if (TaxmanUtils.userConnected()) {
                 SharedPreferences prefs = GroomApplication.getContext().getSharedPreferences(getString(R.string.yoshimi), Context.MODE_PRIVATE);
                 prefs.edit().remove(getString(R.string.yoshimi_token)).apply();
                 prefs.edit().remove(getString(R.string.access_token)).apply();

@@ -11,8 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import android.widget.Toast;
+
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
@@ -22,14 +22,15 @@ import com.hufi.taxmanreader.realm.RealmEvent;
 import com.hufi.taxmanreader.realm.RealmPlace;
 import com.hufi.taxmanreader.realm.RealmProduct;
 import com.hufi.taxmanreader.utils.TaxmanUtils;
-import io.realm.Realm;
-import retrofit2.Call;
-import retrofit2.Callback;
 
 import java.security.Security;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+
+import io.realm.Realm;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     @Override
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         return true;
@@ -58,9 +58,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         switch (id) {

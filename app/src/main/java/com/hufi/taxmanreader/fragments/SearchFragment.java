@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hufi.taxmanreader.GroomApplication;
-import com.hufi.taxmanreader.GroomService;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.utils.listeners.ClickListener;
@@ -28,7 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchFragment extends Fragment implements ClickListener{
+public class SearchFragment extends Fragment implements ClickListener {
     private View rootView;
 
     private RecyclerView results;
@@ -78,7 +77,7 @@ public class SearchFragment extends Fragment implements ClickListener{
         menu.clear();
     }
 
-    private void load(){
+    private void load() {
         lastname = getArguments().getString(GroomApplication.getContext().getString(R.string.search_lastname));
 
         GroomApplication.service.findTicketByLastName(lastname).enqueue(new Callback<List<Ticket>>() {
@@ -89,13 +88,14 @@ public class SearchFragment extends Fragment implements ClickListener{
 
             @Override
             public void onFailure(Call<List<Ticket>> call, Throwable t) {
-
+                no_results.setText(getString(R.string.service_failure));
+                no_results.setVisibility(View.VISIBLE);
             }
         });
     }
 
-    private void setRecyclerView(List<Ticket> tickets){
-        if(!tickets.isEmpty()){
+    private void setRecyclerView(List<Ticket> tickets) {
+        if (!tickets.isEmpty()) {
             searchAdapter = new SearchAdapter(tickets, this);
             results.setAdapter(searchAdapter);
         } else {
@@ -105,7 +105,7 @@ public class SearchFragment extends Fragment implements ClickListener{
 
     @Override
     public void onitemClick(Ticket ticket) {
-        if(ticket != null){
+        if (ticket != null) {
             ResultFragment fragment = ResultFragment.newInstance(null, ticket, true);
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();

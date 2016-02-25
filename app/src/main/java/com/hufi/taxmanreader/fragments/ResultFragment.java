@@ -62,7 +62,7 @@ public class ResultFragment extends Fragment {
     public static ResultFragment newInstance(String result, Ticket ticket, Boolean isManual) {
         final ResultFragment resultFragment = new ResultFragment();
         final Bundle arguments = new Bundle();
-        if(!isManual){
+        if (!isManual) {
             arguments.putString(GroomApplication.getContext().getString(R.string.scanner_result), result);
         } else {
             arguments.putParcelable(GroomApplication.getContext().getString(R.string.manual_result), ticket);
@@ -134,7 +134,7 @@ public class ResultFragment extends Fragment {
         }
     }
 
-    private void loadManual(){
+    private void loadManual() {
         manual_ticket = getArguments().getParcelable(GroomApplication.getContext().getString(R.string.manual_result));
         progress_check.start();
 
@@ -170,7 +170,7 @@ public class ResultFragment extends Fragment {
         }
     }
 
-    private void checkUsage(int ticketID){
+    private void checkUsage(int ticketID) {
         GroomApplication.service.ticketUsage(ticketID).enqueue(new Callback<Ticket>() {
             @Override
             public void onResponse(Call<Ticket> call, Response<Ticket> response) {
@@ -181,8 +181,7 @@ public class ResultFragment extends Fragment {
                     rootView.findViewById(R.id.status_message).setVisibility(View.VISIBLE);
                     ((TextView) rootView.findViewById(R.id.status_message)).setText(getString(R.string.server_error_code) + response.code() + "\\n" + getString(R.string.couldnt_check));
                     setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
-                }
-                else {
+                } else {
                     Ticket ticket = response.body();
 
                     if (ticket.getError() == null) {
@@ -208,7 +207,7 @@ public class ResultFragment extends Fragment {
         });
     }
 
-    private void setProduct(int prid){
+    private void setProduct(int prid) {
         RealmProduct product = Realm.getInstance(GroomApplication.getContext()).where(RealmProduct.class)
                 .equalTo("id", prid)
                 .findFirst();
@@ -251,11 +250,11 @@ public class ResultFragment extends Fragment {
     }
 
     private void stopProgress() {
-        if(progress_check.isStart()) progress_check.stop();
+        if (progress_check.isStart()) progress_check.stop();
         progress_check.setVisibility(View.GONE);
     }
 
-    private void beep(){
+    private void beep() {
         ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
         toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
     }
