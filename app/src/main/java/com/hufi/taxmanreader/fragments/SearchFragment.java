@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.GroomService;
@@ -31,6 +32,7 @@ public class SearchFragment extends Fragment implements ClickListener{
     private View rootView;
 
     private RecyclerView results;
+    private TextView no_results;
     private SearchAdapter searchAdapter;
 
     private String lastname;
@@ -51,6 +53,7 @@ public class SearchFragment extends Fragment implements ClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.rootView = inflater.inflate(R.layout.search_fragment, container, false);
         results = (RecyclerView) this.rootView.findViewById(R.id.results_view);
+        no_results = (TextView) this.rootView.findViewById(R.id.no_result_found);
 
         results.setHasFixedSize(true);
 
@@ -92,8 +95,12 @@ public class SearchFragment extends Fragment implements ClickListener{
     }
 
     private void setRecyclerView(List<Ticket> tickets){
-        searchAdapter = new SearchAdapter(tickets, this);
-        results.setAdapter(searchAdapter);
+        if(!tickets.isEmpty()){
+            searchAdapter = new SearchAdapter(tickets, this);
+            results.setAdapter(searchAdapter);
+        } else {
+            no_results.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -106,8 +113,6 @@ public class SearchFragment extends Fragment implements ClickListener{
             transaction.addToBackStack(null);
             transaction.commit();
         }
-
-        getFragmentManager().beginTransaction().remove(this).commit();
     }
 
 

@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +63,12 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_scanner, menu);
     }
 
     @Override
@@ -202,15 +210,21 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
 
         builder.setPositiveButton(R.string.search, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                Dialog f = (Dialog) dialog;
-                EditText lastname = (EditText) f.findViewById(R.id.dialog_lastname);
+                if(TaxmanUtils.userConnected()){
+                    Dialog f = (Dialog) dialog;
+                    EditText lastname = (EditText) f.findViewById(R.id.dialog_lastname);
 
-                SearchFragment fragment = SearchFragment.newInstance(lastname.getText().toString());
-                FragmentManager manager = getFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.scanner_container, fragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                    SearchFragment fragment = SearchFragment.newInstance(lastname.getText().toString());
+                    FragmentManager manager = getFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.replace(R.id.scanner_container, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                } else {
+                    Toast.makeText(GroomApplication.getContext(), getString(R.string.notconnected), Toast.LENGTH_SHORT).show();
+                    groomScannerView.startCamera(Integer.valueOf(cameraIDUsed));
+                }
+
             }
         });
 
