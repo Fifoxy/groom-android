@@ -2,13 +2,25 @@ package com.hufi.taxmanreader.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.Event;
 import com.hufi.taxmanreader.model.Place;
+import com.hufi.taxmanreader.model.Product;
+import com.hufi.taxmanreader.utils.ui.ProductsAdapter;
+
+import java.util.Collections;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EventActivity extends AppCompatActivity {
 
@@ -18,6 +30,8 @@ public class EventActivity extends AppCompatActivity {
     private TextView place;
     private TextView address;
 
+    private RecyclerView list_products;
+    private ProductsAdapter productsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +43,12 @@ public class EventActivity extends AppCompatActivity {
 
         place = (TextView) findViewById(R.id.a_event_place);
         address = (TextView) findViewById(R.id.a_event_address);
+        list_products = (RecyclerView) findViewById(R.id.products_view);
+
+        list_products.setHasFixedSize(true);
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(GroomApplication.getContext());
+        list_products.setLayoutManager(layoutManager);
 
         event = (Event) getIntent().getExtras().getParcelable(getString(R.string.events));
         if (event != null) {
@@ -61,5 +81,20 @@ public class EventActivity extends AppCompatActivity {
         Place place_infos = event.getPlace();
         place.setText(place_infos.getName());
         address.setText(place_infos.getAddress());
+
+        GroomApplication.service.getProductsByEvent(event.getSlug()).enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                List<Product> products = response.body();
+                Collections.sort(products);
+                productsAdapter = new ProductsAdapter(products);
+                list_products.setAdapter(productsAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+
+            }
+        });
     }
 }

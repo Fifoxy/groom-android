@@ -3,7 +3,7 @@ package com.hufi.taxmanreader.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Product implements Parcelable {
+public class Product implements Parcelable, Comparable{
     private String event_slug;
     private String price;
     private Integer id;
@@ -78,4 +78,9 @@ public class Product implements Parcelable {
             return new Product[size];
         }
     };
+
+    @Override
+    public int compareTo(Object another) {
+        return this.getId() -  ((Product) another).getId();
+    }
 }

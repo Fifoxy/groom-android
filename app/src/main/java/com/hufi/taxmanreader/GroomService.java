@@ -38,4 +38,7 @@ public interface GroomService {
 
     @GET("tickets")
     Call<List<Ticket>> findTicketByLastName(@Query("person.last_name") String lastName);
+
+    @GET("products")
+    Call<List<Product>> getProductsByEvent(@Query("event_slug") String slug);
 }
