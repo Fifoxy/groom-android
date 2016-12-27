@@ -32,7 +32,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="#212121"
+            app:cardBackgroundColor="@color/cardViewbg"
             android:id="@+id/event_place"
             android:layout_margin="5dp"
             app:cardElevation="7dp"
@@ -51,7 +51,7 @@
                     android:id="@+id/a_event_place"
                     android:gravity="center"
                     android:layout_margin="5dp"
-                    android:textColor="#fff"/>
+                    android:textColor="@color/textColor"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                     android:id="@+id/a_event_address"
                     android:gravity="center"
                     android:layout_margin="5dp"
-                    android:textColor="#fff"/>
+                    android:textColor="@color/textColor"/>
 
             </LinearLayout>
 
@@ -88,7 +88,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 app:loading_width="3dp"
-                app:loading_color="#EF6C00"
+                app:loading_color="@color/colorAccent"
                 android:visibility="gone"
                 android:layout_gravity="center_horizontal"/>
 

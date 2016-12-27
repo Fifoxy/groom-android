@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/logo"
             android:src="@drawable/groom"
+            android:hint="@color/textColor"
             android:layout_gravity="center"
             android:layout_marginBottom="50dp"/>
 
@@ -32,7 +33,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:loading_width="3dp"
-            app:loading_color="#EF6C00"
+            app:loading_color="@color/colorAccent"
             android:visibility="gone"
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"/>
@@ -43,7 +44,7 @@
             android:layout_height="wrap_content"
             android:text="@string/status"
             android:layout_gravity="center"
-            android:textColor="#ffffff"
+            android:textColor="@color/textColor"
             android:textSize="20sp"
             android:id="@+id/sign_status" />
 
@@ -52,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="@string/infos"
             android:layout_gravity="center"
-            android:textColor="#ffffff"
+            android:textColor="@color/textColor"
             android:id="@+id/sign_infos" />
 
         <Button

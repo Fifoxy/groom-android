@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardBackgroundColor="#212121"
+    card_view:cardBackgroundColor="@color/cardViewbg"
     android:id="@+id/cv"
     android:layout_margin="5dp"
     card_view:cardElevation="7dp">
@@ -20,14 +20,14 @@
             android:id="@+id/product_id_view"
             android:layout_margin="5dp"
             android:textSize="18sp"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/textColor"
             android:text="@string/ticket_id" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/product_name_view"
-            android:textColor="@android:color/white"
+            android:textColor="@color/textColor"
             android:layout_margin="5dp"
             android:text="@string/product_name_label"
             android:textSize="18sp"
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/price_view"
             android:gravity="end"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorAccent"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"

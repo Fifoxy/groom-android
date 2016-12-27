@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardBackgroundColor="#212121"
+    card_view:cardBackgroundColor="@color/cardViewbg"
     android:id="@+id/cv_events"
     android:layout_margin="5dp"
     card_view:cardElevation="7dp">
@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/name_event"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textColor"
         android:layout_margin="10dp"
         android:text="@string/event_info"
         android:textSize="18sp"

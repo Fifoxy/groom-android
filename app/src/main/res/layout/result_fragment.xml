@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/status"
-        android:textColor="#ffffff"
+        android:textColor="@color/textColor"
         android:layout_marginTop="10dp"
         android:textSize="25sp"
         android:layout_gravity="center_horizontal"  />
@@ -39,7 +39,7 @@
         android:text="@string/revoked"
         android:id="@+id/status_message"
         android:visibility="gone"
-        android:textColor="#ffffff"
+        android:textColor="@color/textColor"
         android:layout_gravity="center_horizontal"/>
 
     <LinearLayout
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/firstname"
-            android:textColor="#ffffff"
+            android:textColor="@color/textColor"
             android:paddingRight="5dp"
             android:textSize="25sp"/>
 
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/lastname"
-            android:textColor="#ffffff"
+            android:textColor="@color/textColor"
             android:paddingLeft="5dp"
             android:textSize="25sp"/>
 
@@ -80,14 +80,14 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/ticket_info"
         android:id="@+id/ticket_label"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorAccent"
         android:textAllCaps="true"
         android:paddingTop="15dp"/>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardBackgroundColor="#212121"
+        card_view:cardBackgroundColor="@color/cardViewbg"
         android:id="@+id/product_information"
         android:layout_margin="5dp"
         card_view:cardElevation="7dp"
@@ -114,7 +114,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textColor"
                     android:paddingStart="10dp"
                     android:id="@+id/product_name" />
 
@@ -136,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textColor"
                     android:id="@+id/product_price" />
             </LinearLayout>
 
@@ -150,14 +150,14 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/event_info"
         android:id="@+id/event_label"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorAccent"
         android:textAllCaps="true"
         android:paddingTop="15dp"/>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardBackgroundColor="#212121"
+        card_view:cardBackgroundColor="@color/cardViewbg"
         android:id="@+id/event_information"
         android:layout_margin="5dp"
         card_view:cardElevation="7dp"
@@ -197,7 +197,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
                     android:paddingBottom="5dp"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textColor"
                     android:id="@+id/event_location" />
             </LinearLayout>
 
