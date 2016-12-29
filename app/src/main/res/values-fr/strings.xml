@@ -108,4 +108,8 @@
     <string name="search_message">Insérer un nom</string>
     <string name="search">Recherche</string>
     <string name="no_result">Pas de résultats.</string>
+
+    <string name="bnav_home">Accueil</string>
+    <string name="bnav_scan">Scan</string>
+    <string name="bnav_account">Compte</string>
 </resources>

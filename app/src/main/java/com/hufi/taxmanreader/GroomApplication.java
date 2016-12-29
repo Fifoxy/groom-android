@@ -3,6 +3,7 @@ package com.hufi.taxmanreader;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.multidex.MultiDexApplication;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -27,7 +28,7 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class GroomApplication extends Application {
+public class GroomApplication extends MultiDexApplication {
     private static Context sContext;
     public static GroomService service;
 

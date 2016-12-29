@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidadvance.topsnackbar.TSnackbar;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
 import com.hufi.taxmanreader.model.Event;
@@ -21,6 +22,7 @@ import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.realm.RealmEvent;
 import com.hufi.taxmanreader.realm.RealmPlace;
 import com.hufi.taxmanreader.realm.RealmProduct;
+import com.hufi.taxmanreader.utils.GroomBottomNavigation;
 import com.hufi.taxmanreader.utils.GroomUtils;
 
 import java.security.Security;
@@ -28,17 +30,28 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, GroomBottomNavigation.GroomBottomNavigationCallback {
+
+    @BindView(R.id.bottom_navigation)
+    AHBottomNavigation navigation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        final GroomBottomNavigation nav = new GroomBottomNavigation(this.navigation, savedInstanceState, this, toolbar);
 
         findViewById(R.id.scanner_button).setOnClickListener(this);
 
@@ -166,5 +179,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(GroomApplication.getContext(), getString(R.string.sync_failed), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public boolean onTabSelected(int position) {
+        switch (position)
+        {
+            case GroomBottomNavigation.NAVIGATION_ITEM_HOME:
+                break;
+            case GroomBottomNavigation.NAVIGATION_ITEM_SCAN:
+                break;
+            case GroomBottomNavigation.NAVIGATION_ITEM_ACCOUNT:
+                break;
+            default:
+                return false;
+        }
+        return true;
     }
 }
