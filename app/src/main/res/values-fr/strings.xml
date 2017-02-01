@@ -34,24 +34,23 @@
     <string name="verif_failed">Vérification impossible (non connecté)</string>
 
     <!-- PUBLIC KEY -->
-    <string name="public_key">MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEASezeQmkN3NVL6PcfGXv0lkftLh0
-        8tf70W+j7KwmWO5y1rygtEODKb5dyvj/63NEwzon3zLOAwqOTPwxC59pyQ==</string>
+    <string name="public_key">MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAECeQGcilqkEkLbBWQRBxAo/Px6fZMpc7mBoQGzbwA3n28uZ3Z/yIwmsKgVd7bW3PLmbPJRUewZpm93J+NVQvrYw==</string>
 
     <!-- Yoshimi -->
-    <string name="client_id">kD8Q05MMCFWnwxxFKW5oW4PVluAmzhy1603DBNE6OdLOgmdWiFSWOaeR</string>
-    <string name="authorize_endpoint">https://www.wapitisen.fr/sso/oauth/authorize</string>
+    <string name="client_id">Ihfaa1Jh-VaWsK7Fh4zAtBOkmtLGLQHi4qGd2cmnBDQA0sqE7KAxXkYj</string>
+    <string name="authorize_endpoint">https://tickets.gala-isen.fr/sso/oauth/authorize</string>
     <string name="redirect_uri">https://tickets.gala-isen.fr/login_return</string>
     <string name="yoshimi">Yoshimi</string>
     <string name="yoshimi_token">Yoshimi token</string>
     <string name="access_token">Access token</string>
-    <string name="yoshimi_issuer">https://www.wapitisen.fr</string>
-    <string name="yoshimi_key">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuINbLPfPI10l+tzNpaMH
-        9Hwp63zKDNrEioMVpd0V5BG2m0+WaWjA47D+yEOzpbP1fK8440rTMmDBRiHyB2yj
-        M9QP+rz6gUfhE5O+F/Q887hpXf8GMgfSSyYPBVNYLa/7lRWK0Q3xUMLnwhlK9Ncc
-        E0k4VsLmHybcY36paV1388hAOM+H+7vv8yTX7bsvYcgshxpaUVUAQhb+ivQWMewm
-        kKxqbhFmrJscJE7WJZFBvT+R8MWH83hZaISAZHR92ZO+53CuPYFBsUxX4kk8f5Nd
-        DXZqdpmIfKgQmzLAzmLfICrPZF7gQlZk/lIpipdH1jjbgIgHXUq6RyKb6w1qhtw9
-        7QIDAQAB</string>
+    <string name="yoshimi_issuer">https://tickets.gala-isen.fr</string>
+    <string name="yoshimi_key">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvLqnSdc9w2CzHaUyF69N
+      lASaLQzMGIwVd7CPYuRuYUI2ZMWhnMndgR8CcRG3Rwgsg4CzhiGKwybNXySzJF70
+      DJIdrFnvG6mHEdqzqT+64IxZScAV8lPhBRBnbxlO9I4soBkUd+dPRSXSqAlqBxvN
+      LzasEb71GoPivePEd02AjrL6Rkai4HTA3AQLczWO5/9v3XJFUqaj87lhdfNEo+9L
+      TQHBzDJQfXW42tC7syBzEgWxMIEmTlOds4bGkl3IFkhqFwrd5QT9uKu8jaafb/Ep
+      QSJhSZlj675ybVW0JJRw3zPkZICj3mObQlbVOTwHoPr7nBUzFiUTDwvpZ7KhmwPb
+      AwIDAQAB</string>
 
     <!-- SCANNER -->
     <string name="scanner">Scanner</string>

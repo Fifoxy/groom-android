@@ -1,5 +1,6 @@
 package com.hufi.taxmanreader.activities;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,7 @@ import com.androidadvance.topsnackbar.TSnackbar;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
+import com.hufi.taxmanreader.fragments.ScannerFragment;
 import com.hufi.taxmanreader.model.Event;
 import com.hufi.taxmanreader.model.Product;
 import com.hufi.taxmanreader.realm.RealmEvent;
@@ -38,20 +40,13 @@ import retrofit2.Callback;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GroomBottomNavigation.GroomBottomNavigationCallback {
 
-    @BindView(R.id.bottom_navigation)
-    AHBottomNavigation navigation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(this);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        final GroomBottomNavigation nav = new GroomBottomNavigation(this.navigation, savedInstanceState, this, toolbar);
 
         findViewById(R.id.scanner_button).setOnClickListener(this);
 
@@ -65,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
         return true;
     }
 
@@ -78,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent accountIntent = new Intent(this, AccountActivity.class);
                 startActivity(accountIntent);
                 break;
-            case R.id.action_settings:
-                return true;
             case R.id.events:
                 Intent eventIntent = new Intent(this, EventsActivity.class);
                 startActivity(eventIntent);
@@ -100,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void notifyUser() {
-        String msg = "";
+        String msg;
         if (GroomUtils.userConnected()) {
             msg = getString(R.string.connected);
         } else {
@@ -109,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TSnackbar snackbar = TSnackbar.make(findViewById(R.id.main_content), msg, TSnackbar.LENGTH_SHORT);
 
-        View snackbarView = snackbar.getView();
+        final View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.colorAccent));
         TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
         textView.setTextColor(ContextCompat.getColor(GroomApplication.getContext(), R.color.whiteText));
@@ -118,9 +110,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showSyncStats() {
         final SharedPreferences sharedPreferences = GroomApplication.getContext().getSharedPreferences(getString(R.string.groom_sync), Context.MODE_PRIVATE);
-        String lastSync = sharedPreferences.getString(getString(R.string.last_sync), getString(R.string.never_sync));
-        String eventsNumber = String.valueOf(Realm.getInstance(this).where(RealmEvent.class).findAll().size());
-        String productsNumber = String.valueOf(Realm.getInstance(this).where(RealmProduct.class).findAll().size());
+        final String lastSync = sharedPreferences.getString(getString(R.string.last_sync), getString(R.string.never_sync));
+        final String eventsNumber = String.valueOf(Realm.getInstance(this).where(RealmEvent.class).findAll().size());
+        final String productsNumber = String.valueOf(Realm.getInstance(this).where(RealmProduct.class).findAll().size());
 
         ((TextView) findViewById(R.id.lastSync)).setText(lastSync);
         ((TextView) findViewById(R.id.eventsNumber)).setText(eventsNumber);
@@ -188,6 +180,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case GroomBottomNavigation.NAVIGATION_ITEM_HOME:
                 break;
             case GroomBottomNavigation.NAVIGATION_ITEM_SCAN:
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.add(R.id.main_content, new ScannerFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
                 break;
             case GroomBottomNavigation.NAVIGATION_ITEM_ACCOUNT:
                 break;

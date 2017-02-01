@@ -54,8 +54,6 @@ public class ScannerActivity extends AppCompatActivity {
                     finish();
                 }
                 break;
-            case R.id.action_settings:
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
