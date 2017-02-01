@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/logo"
             android:src="@drawable/groom"
-            android:hint="@color/textColor"
+            android:tint="@color/textColor"
             android:layout_gravity="center"
             android:layout_marginBottom="50dp"/>
 

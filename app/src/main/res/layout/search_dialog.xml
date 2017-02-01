@@ -37,7 +37,7 @@
 
         <EditText
             android:id="@+id/dialog_lastname"
-            android:inputType="textPersonName"
+            android:inputType="text"
             android:layout_width="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
