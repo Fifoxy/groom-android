@@ -1,16 +1,23 @@
 package com.hufi.taxmanreader.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,9 +25,12 @@ import com.androidadvance.topsnackbar.TSnackbar;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
+import com.hufi.taxmanreader.fragments.ResultFragment;
 import com.hufi.taxmanreader.fragments.ScannerFragment;
+import com.hufi.taxmanreader.fragments.SearchFragment;
 import com.hufi.taxmanreader.model.Event;
 import com.hufi.taxmanreader.model.Product;
+import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.realm.RealmEvent;
 import com.hufi.taxmanreader.realm.RealmPlace;
 import com.hufi.taxmanreader.realm.RealmProduct;
@@ -34,11 +44,20 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GroomBottomNavigation.GroomBottomNavigationCallback {
+
+
+    @OnClick(R.id.byid_button)
+    public void byIdClick(View view)
+    {
+        launchDialog();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ButterKnife.bind(this);
 
         findViewById(R.id.scanner_button).setOnClickListener(this);
 
@@ -191,5 +212,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
         }
         return true;
+    }
+
+    private void launchDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setPositiveButton(R.string.scanner, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Dialog f = (Dialog) dialog;
+                EditText ticketID = (EditText) f.findViewById(R.id.dialog_ticket_id);
+
+                if (GroomUtils.userConnected()) {
+                    GroomApplication.service.getTicket(Integer.valueOf(ticketID.getText().toString())).enqueue(new Callback<Ticket>() {
+                        @Override
+                        public void onResponse(Call<Ticket> call, Response<Ticket> response) {
+                            if (response.code() == 200) {
+                                ResultFragment fragment = ResultFragment.newInstance(null, response.body(), true);
+                                FragmentManager manager = getFragmentManager();
+                                FragmentTransaction transaction = manager.beginTransaction();
+                                transaction.replace(R.id.main_content, fragment);
+                                transaction.addToBackStack(null);
+                                transaction.commit();
+                            } else {
+                                if (response.code() == 404) {
+                                    Toast.makeText(GroomApplication.getContext(), getString(R.string.not_found), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(GroomApplication.getContext(), getString(R.string.server_error), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Ticket> call, Throwable t) {
+                            Toast.makeText(GroomApplication.getContext(), getString(R.string.service_failure), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+               dialog.cancel();
+            }
+        });
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.dialog_scan, null));
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        Button negative = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+
+
+        negative.setTextColor(getResources().getColor(R.color.colorAccent));
+        positive.setTextColor(getResources().getColor(R.color.colorAccent));
     }
 }
