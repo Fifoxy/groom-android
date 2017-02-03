@@ -9,8 +9,8 @@ android {
         applicationId "com.hufi.taxmanreader"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 8
-        versionName "1.1.3"
+        versionCode 10
+        versionName "1.2"
         multiDexEnabled true
     }
     buildTypes {
