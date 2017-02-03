@@ -3,6 +3,7 @@ package com.hufi.taxmanreader.fragments;
 import android.app.Fragment;
 import android.content.res.ColorStateList;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -58,6 +59,8 @@ public class ResultFragment extends Fragment {
     private TextView event_label;
 
     private RotateLoading progress_check;
+
+    private MediaPlayer mPlayer;
 
     public static ResultFragment newInstance(String result, Ticket ticket, Boolean isManual) {
         final ResultFragment resultFragment = new ResultFragment();
@@ -186,6 +189,9 @@ public class ResultFragment extends Fragment {
 
                     if (ticket.getError() == null) {
                         setFab(R.drawable.ic_done, R.color.granted, R.string.access_granted);
+                        mPlayer = MediaPlayer.create(GroomApplication.getContext(), R.raw.bond_theme);
+                        mPlayer.setLooping(false);
+                        mPlayer.start();
                     } else if (ticket.getError().equals(getString(R.string.order_revoked))) {
                         failure(getString(R.string.revoked));
                         beep();
@@ -205,6 +211,15 @@ public class ResultFragment extends Fragment {
                 setFab(R.drawable.ic_block, R.color.colorAccent, R.string.access_unchecked);
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mPlayer != null && mPlayer.isPlaying())
+        {
+            mPlayer.stop();
+        }
     }
 
     private void setProduct(int prid) {
