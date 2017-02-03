@@ -2,12 +2,12 @@ package com.hufi.taxmanreader.model;
 
 public class QRTicket {
 
-    private String ln;
-    private String fn;
-    private String id;
-    private String iat;
-    private String prid;
-    private String orid;
+    public String ln;
+    public String fn;
+    public String id;
+    public String iat;
+    public String prid;
+    public String orid;
 
     public String getLastname() {
         return ln;

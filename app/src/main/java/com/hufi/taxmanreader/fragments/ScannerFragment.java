@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,26 +21,30 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.hufi.taxmanreader.GroomApplication;
 import com.hufi.taxmanreader.R;
+import com.hufi.taxmanreader.model.QRTicket;
 import com.hufi.taxmanreader.model.Ticket;
 import com.hufi.taxmanreader.utils.GroomScannerView;
 import com.hufi.taxmanreader.utils.GroomUtils;
 
-import org.jose4j.jws.JsonWebSignature;
-import org.jose4j.jwt.JwtClaims;
-import org.jose4j.jwt.consumer.JwtConsumer;
-import org.jose4j.jwt.consumer.JwtConsumerBuilder;
+import io.jsonwebtoken.*;
 
 import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.security.interfaces.ECKey;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import org.jose4j.lang.JoseException;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -131,18 +136,25 @@ public class ScannerFragment extends Fragment implements ZXingScannerView.Result
             X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(Base64.decode(getString(R.string.public_key), Base64.DEFAULT));
             KeyFactory keyFactory = KeyFactory.getInstance("ECDSA");
             PublicKey publicKey = keyFactory.generatePublic(pubKeySpec);
-            JsonWebSignature jws = new JsonWebSignature();
-            jws.setCompactSerialization(result.getText());
-            jws.setKey(publicKey);
 
-            JwtConsumer jwtConsumer = new JwtConsumerBuilder()
-                    .setVerificationKey(publicKey)
-                    .build();
-
-            JwtClaims jwtClaims = jwtConsumer.processToClaims(result.getText());
-            launchResult(jwtClaims.getRawJson());
-        } catch (Exception ex) {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(result.getText());
+            Gson gson = new Gson();
+            QRTicket ticket = new QRTicket();
+            ticket.id = String.valueOf(claims.getBody().get("id", Integer.class));
+            ticket.ln = claims.getBody().get("ln", String.class);
+            ticket.fn = claims.getBody().get("fn", String.class);
+            ticket.prid = String.valueOf(claims.getBody().get("prid", Integer.class));
+            ticket.iat = String.valueOf(claims.getBody().get("iat", Date.class).getTime() / 1000);
+            ticket.orid = String.valueOf(claims.getBody().get("orid", Integer.class));
+            launchResult(gson.toJson(ticket));
+        } catch (SignatureException e) {
             launchResult("");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
