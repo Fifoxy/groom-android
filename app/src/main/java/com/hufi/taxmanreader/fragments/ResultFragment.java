@@ -189,9 +189,9 @@ public class ResultFragment extends Fragment {
 
                     if (ticket.getError() == null) {
                         setFab(R.drawable.ic_done, R.color.granted, R.string.access_granted);
-                        mPlayer = MediaPlayer.create(GroomApplication.getContext(), R.raw.bond_theme);
+                        /*mPlayer = MediaPlayer.create(GroomApplication.getContext(), R.raw.bond_theme);
                         mPlayer.setLooping(false);
-                        mPlayer.start();
+                        mPlayer.start();*/
                     } else if (ticket.getError().equals(getString(R.string.order_revoked))) {
                         failure(getString(R.string.revoked));
                         beep();
