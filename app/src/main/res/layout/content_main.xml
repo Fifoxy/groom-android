@@ -18,51 +18,36 @@
             android:orientation="vertical"
             android:id="@+id/linearLayout">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/logo"
-            android:src="@drawable/groom"
-            android:tint="@color/textColor"
-            android:layout_gravity="center"
-            android:layout_marginBottom="25dp"/>
 
-
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/scanner"
-            android:id="@+id/scanner_button"
-            android:theme="@style/MyButton"
+            android:orientation="horizontal"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            android:layout_gravity="center" />
+            android:gravity="center">
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scanner"
+                android:id="@+id/scanner_button"
+                android:theme="@style/MyButton" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/by_id"
-            android:id="@+id/byid_button"
-            android:theme="@style/MyButton"
-            android:layout_marginBottom="15dp"
-            android:layout_gravity="center" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/by_id"
+                android:id="@+id/byid_button"
+                android:theme="@style/MyButton" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textAllCaps="true"
-            android:text="@string/sync_status"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp" />
+        </LinearLayout>
 
         <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 card_view:cardBackgroundColor="@color/cardViewbg"
                 android:id="@+id/product_information"
-                card_view:cardElevation="7dp"
                 card_view:cardUseCompatPadding="true">
 
             <LinearLayout
