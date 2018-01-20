@@ -30,11 +30,10 @@
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="25sp"
+            android:layout_height="wrap_content"
             android:text="@string/scanner"
             android:id="@+id/scanner_button"
-            android:background="@color/colorAccent"
-            android:textColor="@color/whiteText"
+            android:theme="@style/MyButton"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:layout_gravity="center" />
@@ -42,12 +41,10 @@
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="25sp"
+            android:layout_height="wrap_content"
             android:text="@string/by_id"
             android:id="@+id/byid_button"
-            android:background="@color/colorAccent"
-            android:textColor="@color/whiteText"
-            android:layout_marginTop="15dp"
+            android:theme="@style/MyButton"
             android:layout_marginBottom="15dp"
             android:layout_gravity="center" />
 
