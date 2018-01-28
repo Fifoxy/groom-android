@@ -50,41 +50,35 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, GroomBottomNavigation.GroomBottomNavigationCallback {
+public class MainActivity extends AppCompatActivity {
 
 
-    @OnClick(R.id.byid_button)
+  /*  @OnClick(R.id.byid_button)
     public void byIdClick(View view)
     {
         launchDialog();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        ButterKnife.bind(this);
-
-        findViewById(R.id.scanner_button).setOnClickListener(this);
-
-        Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
-
-        fetchEvents();
-        showSyncStats();
-        notifyUser();
+        if (GroomUtils.userConnected()) {
+            Intent intent = new Intent(this, ScannerActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, YoshimiActivity.class);
+            startActivity(intent);
+        }
     }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
+    }*/
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -102,17 +96,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.scanner_button) {
-            Intent intent = new Intent(this, ScannerActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    private void notifyUser() {
+   /* private void notifyUser() {
         String msg;
         if (GroomUtils.userConnected()) {
             msg = getString(R.string.connected);
@@ -268,5 +254,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         negative.setTextColor(getResources().getColor(R.color.colorAccent));
         positive.setTextColor(getResources().getColor(R.color.colorAccent));
-    }
+    }*/
 }

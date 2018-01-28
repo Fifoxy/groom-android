@@ -57,7 +57,7 @@ public class GroomBottomNavigation implements AHBottomNavigation.OnTabSelectedLi
     @Override
     public boolean onTabSelected(int position, boolean wasSelected)
     {
-        return !wasSelected && this.callback instanceof MainActivity && ((MainActivity) this.callback).onTabSelected(position);
+        return !wasSelected ; //&& this.callback instanceof MainActivity && ((MainActivity) this.callback).onTabSelected(position);
     }
 
     public interface GroomBottomNavigationCallback
