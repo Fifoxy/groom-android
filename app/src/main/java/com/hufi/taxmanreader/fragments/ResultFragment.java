@@ -94,9 +94,11 @@ public class ResultFragment extends Fragment {
 
         product_information = (CardView) this.rootView.findViewById(R.id.product_information);
         event_information = (CardView) this.rootView.findViewById(R.id.event_information);
+        event_information.setVisibility(View.GONE);
 
         product_label = (TextView) this.rootView.findViewById(R.id.ticket_label);
         event_label = (TextView) this.rootView.findViewById(R.id.event_label);
+        event_label.setVisibility(View.GONE);
 
         progress_check = (RotateLoading) this.rootView.findViewById(R.id.progress_check);
 
