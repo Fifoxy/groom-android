@@ -1,18 +1,18 @@
 package com.hufi.taxmanreader.model;
 
 public class User {
-    private String sub;
+    private Integer id;
     private String email;
     private String first_name;
     private String last_name;
-    private boolean admin;
+    private boolean is_staff;
 
-    public String getSub() {
-        return sub;
+    public Integer getId() {
+        return id;
     }
 
-    public void setSub(String sub) {
-        this.sub = sub;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -40,10 +40,10 @@ public class User {
     }
 
     public boolean isAdmin() {
-        return admin;
+        return is_staff;
     }
 
     public void setAdmin(boolean admin) {
-        this.admin = admin;
+        this.is_staff= admin;
     }
 }

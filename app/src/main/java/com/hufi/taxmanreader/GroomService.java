@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 import java.util.List;
 
 public interface GroomService {
-    @GET("me")
+    @GET("users/me")
     Call<User> getUser(@Header("Authorization") String authorization);
 
 
@@ -37,8 +37,8 @@ public interface GroomService {
     Call<Ticket> ticketUsage(@Path("ticket_id") Integer ticket_id);
 
     @GET("tickets")
-    Call<List<Ticket>> findTicketByLastName(@Query("person.last_name") String lastName);
+    Call<List<Ticket>> findTicketByLastName(@Query("last_name") String lastName);
 
     @GET("products")
-    Call<List<Product>> getProductsByEvent(@Query("event_slug") String slug);
+    Call<List<Product>> getProductsByEvent(@Query("event") String slug);
 }

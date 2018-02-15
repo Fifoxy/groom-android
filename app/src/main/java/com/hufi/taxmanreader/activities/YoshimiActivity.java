@@ -53,7 +53,7 @@ public class YoshimiActivity extends Activity {
     }
 
     public void onYoshimiReturn(Uri uri) {
-        final Map<String, String> params = Splitter.on('&').trimResults().withKeyValueSeparator('=').split(uri.getEncodedFragment());
+            final Map<String, String> params = Splitter.on('&').trimResults().withKeyValueSeparator('=').split(uri.getEncodedFragment());
 
         X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(Base64.decode(getString(R.string.yoshimi_key), Base64.DEFAULT));
         KeyFactory keyFactory = null;
