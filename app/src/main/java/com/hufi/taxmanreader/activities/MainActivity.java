@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 for (Event event : response.body()) {
                     if (realm.where(RealmEvent.class).equalTo("slug", event.getSlug()).count() == 0) {
-                        RealmPlace place = realm.where(RealmPlace.class).equalTo("id", event.getPlace_id()).findFirst();
+                       /* RealmPlace place = realm.where(RealmPlace.class).equalTo("id", event.getPlace_id()).findFirst();
                         if (place == null) {
                             place = realm.createObject(RealmPlace.class);
                             place.setId(event.getPlace().getId());
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         RealmEvent realmEvent = realm.createObject(RealmEvent.class);
                         realmEvent.setSlug(event.getSlug());
                         realmEvent.setName(event.getName());
-                        realmEvent.setPlace(place);
+                        realmEvent.setPlace(place);*/
 
                         for (Product product : event.getProducts()) {
                             if (realm.where(RealmProduct.class).equalTo("id", product.getId()).count() == 0) {
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 realmProduct.setId(product.getId());
                                 realmProduct.setName(product.getName());
                                 realmProduct.setPrice(product.getPrice());
-                                realmProduct.setEvent(realmEvent);
+                                //realmProduct.setEvent(realmEvent);
                             }
                         }
                     }
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 SimpleDateFormat format = new SimpleDateFormat("M/d/yyyy kk:mm:ss");
                 editor.putString(getString(R.string.last_sync), format.format(Calendar.getInstance().getTime()));
                 editor.apply();
-                showSyncStats();
+               // showSyncStats();
             }
 
             @Override
