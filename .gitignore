@@ -10,4 +10,4 @@
 *.iml
 .idea/encodings.xml
 .idea/runConfigurations.xml
-git-author-rewrite.sh
+*.sh
