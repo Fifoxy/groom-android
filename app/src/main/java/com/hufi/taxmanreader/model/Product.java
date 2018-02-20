@@ -4,45 +4,38 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Product implements Parcelable, Comparable{
-    private String event_slug;
-    private String price;
+
     private Integer id;
+    private String event;
     private String name;
-
-    public String getEvent_slug() {
-        return event_slug;
-    }
-
-    private void setEvent_slug(String event_slug) {
-        this.event_slug = event_slug;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    private void setPrice(String price) {
-        this.price = price;
-    }
+    private String price;
 
     public Integer getId() {
         return id;
     }
 
-    private void setId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
+
+    public String getEvent() { return event; }
+
+    public void setEvent(String event) { this.event = event; }
 
     public String getName() {
         return name;
     }
 
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
+    public String getPrice() { return price; }
+
+    public void setPrice(String price) { this.price = price; }
+
     protected Product(Parcel in) {
-        event_slug = in.readString();
+        event = in.readString();
         price = in.readString();
         id = in.readByte() == 0x00 ? null : in.readInt();
         name = in.readString();
@@ -55,7 +48,7 @@ public class Product implements Parcelable, Comparable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(event_slug);
+        dest.writeString(event);
         dest.writeString(price);
         if (id == null) {
             dest.writeByte((byte) (0x00));

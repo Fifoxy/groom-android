@@ -6,12 +6,11 @@ import android.os.Parcelable;
 public class Ticket implements Parcelable {
     private int id;
     private boolean used;
-    private int order_id;
-    private int product_id;
-    private int person_id;
+    private int order;
+    private String first_name;
+    private String last_name;
 
     private Product product;
-    private Person person;
 
     private String error;
 
@@ -31,12 +30,28 @@ public class Ticket implements Parcelable {
         this.used = used;
     }
 
-    public int getOrder_id() {
-        return order_id;
+    public int getOrder() {
+        return order;
     }
 
-    public void setOrder_id(int order_id) {
-        this.order_id = order_id;
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public int getProduct_id() {
@@ -82,9 +97,9 @@ public class Ticket implements Parcelable {
     protected Ticket(Parcel in) {
         id = in.readInt();
         used = in.readByte() != 0x00;
-        order_id = in.readInt();
-        product_id = in.readInt();
-        person_id = in.readInt();
+        order = in.readInt();
+        first_name = in.readInt();
+        last_name = in.readInt();
         product = (Product) in.readValue(Product.class.getClassLoader());
         person = (Person) in.readValue(Person.class.getClassLoader());
         error = in.readString();
@@ -99,9 +114,9 @@ public class Ticket implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeByte((byte) (used ? 0x01 : 0x00));
-        dest.writeInt(order_id);
-        dest.writeInt(product_id);
-        dest.writeInt(person_id);
+        dest.writeInt(order);
+        dest.writeInt(first_name);
+        dest.writeInt(last_name);
         dest.writeValue(product);
         dest.writeValue(person);
         dest.writeString(error);
