@@ -1,4 +1,4 @@
-package com.hufi.taxmanreader;
+package fr.galaisen.groomreader;
 
 import org.junit.Test;
 
