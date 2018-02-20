@@ -141,11 +141,11 @@ public class ResultFragment extends Fragment {
         manual_ticket = getArguments().getParcelable(GroomApplication.getContext().getString(R.string.manual_result));
         progress_check.start();
 
-        lastname.setText(manual_ticket.getPerson().getLast_name());
-        firstname.setText(manual_ticket.getPerson().getFirst_name());
+        lastname.setText(manual_ticket.getLast_name());
+        firstname.setText(manual_ticket.getFirst_name());
         ticket_id.setText(String.format("ID: %s", manual_ticket.getId()));
 
-        setProduct(manual_ticket.getProduct_id());
+        setProduct(manual_ticket.getProduct().getId());
         checkUsage(manual_ticket.getId());
     }
 

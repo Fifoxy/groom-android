@@ -34,12 +34,12 @@
     <string name="verif_failed">Verification failed (not connected)</string>
 
     <!-- PUBLIC KEY -->
-    <string name="public_key">MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEw1ZUIFTW+qZBVNgYakEGXy6p4emX87gDbe+fIBHffur0ew/vn86sUufiv/g3pW5uxDanidJQia1IgaN0TLPgmg==</string>
+    <string name="public_key">MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAECeQGcilqkEkLbBWQRBxAo/Px6fZMpc7mBoQGzbwA3n28uZ3Z/yIwmsKgVd7bW3PLmbPJRUewZpm93J+NVQvrYw==</string>
 
     <!-- Yoshimi -->
-    <string name="client_id">EMhEJ3uURAcYH3ViQBUAKe3CpLR-LeI6uTTPSr50yGfgxncem13jCj_2</string>
+    <string name="client_id">VsMDnEINWogdFSl1oT-RGTYCMc1-w4IM4D1Fz5Uu4_cc5Fu1sEeDil0p</string>
     <string name="authorize_endpoint">https://tickets.gala-isen.fr/sso/oauth/authorize</string>
-    <string name="redirect_uri">https://tickets.gala-isen.fr/</string>
+    <string name="redirect_uri">https://tickets.gala-isen.fr/login_return</string>
     <string name="yoshimi">Yoshimi</string>
     <string name="yoshimi_token">Yoshimi token</string>
     <string name="access_token">Access token</string>

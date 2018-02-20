@@ -33,8 +33,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchHolder> {
             Ticket ticket = results.get(position);
 
             if(ticket != null){
-                holder.firstname.setText(ticket.getPerson().getFirst_name());
-                holder.lastname.setText(ticket.getPerson().getLast_name());
+                holder.firstname.setText(ticket.getFirst_name());
+                holder.lastname.setText(ticket.getLast_name());
                 holder.id.setText(Integer.toString(ticket.getId()));
 
                 holder.setView(ticket, clickListener);

@@ -65,7 +65,7 @@ public class GroomApplication extends MultiDexApplication {
         });
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://tickets.gala-isen.fr/api/")
+                .baseUrl("https://tickets.gala-isen.fr/api/v1/")
                 .client(httpClient.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
